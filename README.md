@@ -62,20 +62,20 @@ LUMI processes commands through a **three-layer cognitive pipeline**:
 
 ### Processing Flow
 
-User Input (Voice/Text)
-↓
-Speech-to-Text (if voice)
-↓
-Intent Router
-↓
-┌────────────┬──────────────┬─────────────┐
-│ Script │ Hybrid │ AI │
-│ Engine │ Engine │ Engine │
-└────────────┴──────────────┴─────────────┘
-↓
-Emotion Engine → Display
-↓
-Response Engine → Voice / Text
+              User Input (Voice/Text)
+                        ↓
+              Speech-to-Text (if voice)
+                        ↓
+                  Intent Router
+                        ↓
+    ┌────────────┬──────────────┬─────────────┐
+    │ Script     │     Hybrid   │      AI     │
+    │ Engine     │     Engine   │    Engine   │
+    └────────────┴──────────────┴─────────────┘
+                        ↓
+              Emotion Engine → Display
+                        ↓
+           Response Engine → Voice / Text
 
 
 ---
@@ -179,11 +179,11 @@ Database & Cache
 
 > This section will contain **real photos, videos and demonstrations** of LUMI development and physical assembly.
 
-📁 Github-Assets/
-├── banner.png
-├── robot_design.png
-├── prototype_01.jpg
-├── assembly_video.mp4
+    📁 Github-Assets/
+    ├── banner.png
+    ├── robot_design.png
+    ├── prototype_01.jpg
+    ├── assembly_video.mp4
 
 
 ---
