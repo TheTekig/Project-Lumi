@@ -22,5 +22,5 @@ def chat(request: ChatRequest):
     process_user_input = ProcessUserInputUseCase()
 
 
-    response = process_user_input.execute(dto.message)
+    response = process_user_input.execute(dto)
     return ChatResponse(reply=response)

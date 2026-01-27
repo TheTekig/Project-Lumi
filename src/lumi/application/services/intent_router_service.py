@@ -14,4 +14,7 @@ class IntentRouterService:
         if any(word in message for word in ["recipe", "how to make", "cook"]):
             return IntentType.RECIPE_REQUEST
 
+        if any(word in message for word in ["yes", "confirm", "sure", "absolutely"]):
+            return IntentType.CONFIRMATION
+
         return IntentType.FREE_CHAT

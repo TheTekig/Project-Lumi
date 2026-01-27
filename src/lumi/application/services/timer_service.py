@@ -69,16 +69,44 @@ class TimerService:
         timer = Timer.create(duration_seconds, name)
         self.active_timers[timer.id] = timer
 
-        thread = threading.Thread(target=self._run_timer, args=(timer, callback))
+        thread = threading.Thread(target=self._run_timer, args=(timer, callback), daemon=True)
         thread.start()
 
         return timer
 
 
     def _run_timer(self, timer: Timer, callback):
-        time.sleep(timer.duration_seconds)
 
-        timer.active = False
+        total = timer.duration_seconds
+
+        checkpoints = []
+        
+        if total > 300:
+            checkpoints.append(300)
+        
+        if total > 60:
+            checkpoints.append(60)
+        
+        if total > 10:
+            checkpoints.append(10)
+
+        checkpoints.sort(reverse=True)
+
+        remaining = total
+
+        for checkpoint in checkpoints:
+            time.sleep(remaining - checkpoint)
+            remaining = checkpoint
+            self._notify_checkpoint(timer, remaining)
+
+        time.sleep(remaining)
         callback(timer)
 
         del self.active_timers[timer.id]
+
+    def _notify_checkpoint(self, timer: Timer, remaining_seconds: int):
+        if remaining_seconds >= 60:
+            minutes = remaining_seconds // 60
+            print(f"Timer '{timer.name}': {minutes} minute(s) remaining.")
+        else:
+            print(f"Timer '{timer.name}': {remaining_seconds} second(s) remaining.")
