@@ -1,217 +1,213 @@
 <p align="center">
-  <img src="Github-Assets/banner.png" alt="Project LUMI Banner" width="100%" />
+  <img src="Github-Assets/banner.png" alt="Banner do Project LUMI" width="100%" />
 </p>
 
 <h1 align="center">🤖 Project LUMI</h1>
 
 <p align="center">
-  <b>Intelligent Culinary Assistant with AI, Voice Interaction and Physical Robot</b>
+  <b>Assistente Culinário Inteligente com IA, Interação por Voz e Robô Físico</b>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-in%20development-yellow" />
+  <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow" />
   <img src="https://img.shields.io/badge/version-0.1.0-blue" />
   <img src="https://img.shields.io/badge/python-3.11+-blue?logo=python" />
   <img src="https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi" />
-  <img src="https://img.shields.io/badge/AI-OpenAI-orange" />
-  <img src="https://img.shields.io/badge/Platform-Raspberry%20Pi-red?logo=raspberrypi" />
+  <img src="https://img.shields.io/badge/IA-OpenAI-orange" />
+  <img src="https://img.shields.io/badge/Plataforma-Raspberry%20Pi-red?logo=raspberrypi" />
 </p>
 
 ---
 
-## 🎯 About The Project
+## 🎯 Sobre o Projeto
 
-**Project LUMI** is an intelligent culinary assistant designed to accompany the user throughout the entire cooking process.  
-It interacts mainly through **voice**, maintains **context and memory**, and integrates a **physical robot** as its main interface.
+O **Project LUMI** é um assistente culinário inteligente projetado para acompanhar o usuário durante **todo o processo de preparo de receitas**.  
+Ele interage principalmente por **voz**, mantém **memória contextual**, gerencia **fluxos culinários** e integra um **robô físico** como sua principal interface.
 
-Unlike traditional assistants, LUMI was architected with a **hybrid cognitive system**, where:
+Diferente dos assistentes tradicionais, a LUMI foi arquitetada utilizando um **sistema cognitivo híbrido**, onde:
 
-> **Artificial Intelligence is used only when it truly adds value.**  
-> Most processing is handled through **deterministic logic, pattern recognition and scripted responses**, ensuring:
+> **A Inteligência Artificial é utilizada apenas quando realmente agrega valor.**  
+> A maior parte do processamento é realizada através de **lógica determinística, reconhecimento de padrões e respostas programadas**, garantindo:
 >
-> - ⚡ Low latency  
-> - 💸 Low operational cost  
-> - 🧠 High reliability  
-> - 🤖 Natural interaction  
+> - ⚡ Baixa latência  
+> - 💸 Baixo custo operacional  
+> - 🧠 Alta confiabilidade  
+> - 🤖 Interação natural  
 
 ---
 
-## ✨ Key Features
+## ✨ Funcionalidades Principais
 
-- 🎙️ Voice interaction (Speech-to-Text & Text-to-Speech)
-- 🧠 Contextual memory of cooking processes
-- ⏱️ Smart timers and step tracking
-- 🤖 Physical robot interface
-- 🎭 Emotional display system
-- 🧩 Hybrid AI + deterministic processing
-- 🧠 Intelligent intent routing
-- 📷 On-demand image analysis
-- 🔄 Active cooking monitoring ("proof of life")
+- 🎙️ Interação por voz (Speech-to-Text & Text-to-Speech)
+- 🧠 Memória contextual do preparo
+- ⏱️ Timers inteligentes e controle de etapas
+- 🤖 Interface por robô físico
+- 🎭 Sistema de emoções no display
+- 🧩 Processamento híbrido (IA + lógica determinística)
+- 🧠 Roteamento inteligente de intenções
+- 📷 Análise de imagens sob demanda
+- 🔄 Monitoramento ativo do preparo ("prova de vida")
 
 ---
 
-## 🧠 Cognitive Architecture
+## 🧠 Arquitetura Cognitiva
 
-LUMI processes commands through a **three-layer cognitive pipeline**:
+A LUMI processa comandos através de um **pipeline cognitivo em três camadas**:
 
-| Layer | Description | AI Usage |
-|--------|-------------|-----------|
-| 🟢 Script Engine | Timers, alarms, commands, responses, jokes, status | 0% |
-| 🟡 Hybrid Engine | Suggestions, explanations, image evaluation | Partial |
-| 🔴 AI Engine | Free conversation, creativity, complex reasoning | Full |
+| Camada | Descrição | Uso de IA |
+|-----------|--------------|-------------|
+| 🟢 Motor Scriptado | Timers, alarmes, comandos, respostas rápidas, piadas, status | 0% |
+| 🟡 Motor Híbrido | Sugestões, explicações, avaliação de imagens | Parcial |
+| 🔴 Motor IA | Conversa livre, criatividade, raciocínio complexo | Total |
 
-### Processing Flow
+### Fluxo de Processamento
 
-              User Input (Voice/Text)
-                        ↓
-              Speech-to-Text (if voice)
-                        ↓
-                  Intent Router
-                        ↓
+        Entrada do Usuário (Voz / Texto)
+                      ↓
+           Speech-to-Text (se voz)
+                      ↓
+                 Roteador de Intenção
+                      ↓
     ┌────────────┬──────────────┬─────────────┐
-    │ Script     │     Hybrid   │      AI     │
-    │ Engine     │     Engine   │    Engine   │
+    │  Motor     │    Motor     │    Motor    │
+    │ Scriptado  │   Híbrido    │      IA     │
     └────────────┴──────────────┴─────────────┘
-                        ↓
-              Emotion Engine → Display
-                        ↓
-           Response Engine → Voice / Text
+                      ↓
+            Motor Emocional → Display
+                      ↓
+           Motor de Resposta → Voz / Texto
+
 
 
 ---
 
-## 🎭 Emotional Display System
+## 🎭 Sistema de Emoções
 
-LUMI uses a simple **state machine** to display emotional feedback through its screen:
+A LUMI utiliza uma **máquina de estados simples** para exibir emoções em seu display:
 
-| State | Emotion |
-|----------|----------|
+| Estado | Emoção |
+|-----------|----------|
 | Idle | 😴 |
-| Listening | 🎙️ |
-| Processing | 🤔 |
-| Speaking | 🙂 |
-| Happy | 😄 |
-| Joke | 😆 |
-| Error | 😵 |
+| Ouvindo | 🎙️ |
+| Processando | 🤔 |
+| Falando | 🙂 |
+| Feliz | 😄 |
+| Brincando | 😆 |
+| Erro | 😵 |
 
 ---
 
-## ⏱️ Active Cooking Monitoring
+## ⏱️ Monitoramento Ativo do Preparo
 
-LUMI keeps track of user interaction and provides **automatic check-ins**:
+A LUMI acompanha a interação do usuário e realiza **check-ins automáticos inteligentes**:
 
-| Time Without Interaction | Action |
-|---------------------------|----------|
-| 5 minutes | "Everything ok there?" |
-| 10 minutes | "How's the recipe going?" |
-| Context aware | Smart follow-ups |
+| Tempo Sem Interação | Ação |
+|----------------------|--------|
+| 5 minutos | "Está tudo bem por aí?" |
+| 10 minutos | "Como está indo a receita?" |
+| Sensível ao contexto | Perguntas inteligentes baseadas no estado atual |
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Stack Tecnológica
 
 ### Backend
 
-| Technology | Purpose |
-|--------------|-----------|
-| Python 3.11+ | Core language |
-| FastAPI | REST API framework |
-| PostgreSQL / SQLite | Persistence |
-| Redis | Cache & memory |
-| OpenAI API | AI reasoning |
-| Docker (future) | Deployment |
+| Tecnologia | Finalidade |
+|--------------|---------------|
+| Python 3.11+ | Linguagem principal |
+| FastAPI | Framework REST |
+| PostgreSQL / SQLite | Persistência |
+| Redis | Cache & memória |
+| OpenAI API | Raciocínio com IA |
+| Docker (futuro) | Deploy |
 
 ---
 
-### Physical Robot
+### Robô Físico
 
-| Component | Purpose |
-|--------------|-----------|
-| Raspberry Pi | Core controller |
-| Microphone | Voice capture |
-| Speakers | Voice output |
-| OLED / LCD | Emotional display |
-| 3D Printed Case | Physical structure |
-
----
-
-## 🏗️ System Architecture
-
- 🤖 Physical Robot
-      ↓
-    Backend Core
- (Python + FastAPI)
-      ↓
- AI + Memory + Logic
-      ↓
-Database & Cache
-
+| Componente | Finalidade |
+|----------------|---------------|
+| Raspberry Pi | Controlador central |
+| Microfone | Captura de voz |
+| Alto-falantes | Reprodução de voz |
+| Display OLED / LCD | Emoções |
+| Carcaça 3D | Estrutura física |
 
 ---
 
-## 🗺️ Project Roadmap
+## 🏗️ Arquitetura do Sistema
 
-| Phase | Description |
+    🤖 Robô Físico
+             ↓
+      Backend Central
+    (Python + FastAPI)
+             ↓
+    IA + Memória + Lógica
+             ↓
+    Banco de Dados & Cache
+
+
+---
+
+## 🗺️ Roadmap do Projeto
+
+| Fase | Descrição |
 |---------|--------------|
-| 🧱 Phase 0 | Concept, identity, architecture & documentation |
-| 🚀 Phase 1 | Backend core + AI integration (MVP) |
-| 🧠 Phase 2 | Persistent memory & context engine |
-| 🗣️ Phase 3 | Voice interaction (STT + TTS) |
-| 🤖 Phase 4 | Physical robot prototype (LUMI Lite) |
-| 🌟 Phase 5 | Deluxe version — full product experience |
+| 🧱 Fase 0 | Conceito, identidade, arquitetura e documentação |
+| 🚀 Fase 1 | Backend central + integração com IA (MVP) |
+| 🧠 Fase 2 | Memória persistente e motor de contexto |
+| 🗣️ Fase 3 | Interação por voz (STT + TTS) |
+| 🤖 Fase 4 | Protótipo físico do robô (LUMI Lite) |
+| 🌟 Fase 5 | Versão Deluxe — experiência completa do produto |
 
 ---
 
-## 🧪 Current Status
+## 🧪 Status Atual
 
-| Module | Status |
-|-----------|----------|
-| Concept & Design | ✅ Completed |
-| Architecture | ✅ Completed |
-| Backend Base | 🟡 In Progress |
-| AI Integration | ⏳ Planned |
-| Voice Interface | ⏳ Planned |
-| Physical Robot | ⏳ Planned |
+| Módulo | Status |
+|------------|----------|
+| Conceito & Design | ✅ Concluído |
+| Arquitetura | ✅ Concluído |
+| Backend Base | 🟡 Em desenvolvimento |
+| Integração IA | ⏳ Planejado |
+| Interface por Voz | ⏳ Planejado |
+| Robô Físico | ⏳ Planejado |
 
 ---
 
-## 🖼️ Media — Photos & Videos
+## 🖼️ Mídia — Fotos & Vídeos
 
-> This section will contain **real photos, videos and demonstrations** of LUMI development and physical assembly.
-
-    📁 Github-Assets/
-    ├── banner.png
-    ├── robot_design.png
-    ├── prototype_01.jpg
-    ├── assembly_video.mp4
+> Esta seção conterá **fotos reais, vídeos e demonstrações** do desenvolvimento e montagem física da LUMI.
 
 
 ---
 
-## 🎯 Project Goal
+## 🎯 Objetivo do Projeto
 
-This project was created as a **flagship portfolio project**, aiming to demonstrate:
+Este projeto foi criado como um **projeto âncora de portfólio**, com o objetivo de demonstrar:
 
-| Skill | Description |
-|----------|--------------|
-| 🧠 Software Engineering | Clean architecture, modular design |
-| ⚙️ Backend Development | APIs, persistence, services |
-| 🤖 Applied AI | Real-world usage, cost optimization |
-| 🎙️ Voice Systems | STT + TTS integration |
-| 🔧 Robotics | Hardware + software integration |
-| 🎨 Product Design | UX, emotion & experience |
+| Habilidade | Descrição |
+|---------------|--------------|
+| 🧠 Engenharia de Software | Arquitetura limpa, design modular |
+| ⚙️ Desenvolvimento Backend | APIs, persistência, serviços |
+| 🤖 IA Aplicada | Uso real, otimização de custos |
+| 🎙️ Sistemas de Voz | Integração STT + TTS |
+| 🔧 Robótica | Integração hardware + software |
+| 🎨 Design de Produto | UX, emoção e experiência |
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Autor
 
-Developed by **Diogo Teodoro**  
-Information Systems Student  
-Backend, AI & Robotics Enthusiast  
+Desenvolvido por **Diogo Teodoro**  
+Estudante de Sistemas de Informação  
+Entusiasta em Backend, IA e Robótica  
 
 ---
 
 <p align="center">
-  🚀 Built with passion, curiosity and lots of coffee.
+  🚀 Construído com paixão, curiosidade e muito café.
 </p>
+
 
