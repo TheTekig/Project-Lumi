@@ -3,12 +3,13 @@ from dotenv import load_dotenv
 from typing import Optional
 
 from lumi.core.config.settings import Settings
+from lumi.domain.interfaces.ai_provider import AIProvaider
 
-
-class OpenAIClient:
+class OpenAIClient(AIProvaider):
+    
     def __init__(self):
         self.settings = Settings()
-        self.client = inicialize_openai_client()
+        self.client = self.inicialize_openai_client()
         self.model = self.settings.AI_MODEL
         self.max_tokens = self.settings.AI_MAX_TOKENS
 
@@ -34,9 +35,11 @@ class OpenAIClient:
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=max_tokens
+                max_tokens=max_tokens,
+                temperature=0.6
             )
             return response.choices[0].message['content'].strip()
+            
         except Exception as e:
             print(f"Error during OpenAI completion: {e}")
             return None

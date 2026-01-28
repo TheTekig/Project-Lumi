@@ -6,3 +6,6 @@ class IntentType(Enum):
     RECIPE_REQUEST = "recipe_request"
     FREE_CHAT = "free_chat"
     CONFIRMATION = "confirmation"
+    SMALL_TALK = "small_talk"
+    IMAGE_ANALYSIS = "image_analysis"
+    RECIPE_SUGESTION = "recipe_suggestion"

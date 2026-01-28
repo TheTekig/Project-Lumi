@@ -22,44 +22,79 @@ class ProcessUserInputUseCase:
         session.last_intent = intent
 
         if intent == IntentType.GREETING:
-            return "Hello! How can I assist you today?"
+            return self.greeting(user_text = user_text)
 
         if intent == IntentType.RECIPE_REQUEST:
-            recipe_session = self.recipe_service.get_recipe(user_text)
-            if not recipe_session:
-                recipes = self.recipe_service.list_recipes()
-                recipe_names = ', '.join([recipe.name for recipe in recipes])
-                return f"Sorry, I couldn't find that recipe. Here are some recipes you can try: {recipe_names}."
-            
-            session.current_recipe = recipe_session
-            first_step = recipe_session.steps[0]
-
-            return "I can help you with recipes. What would you like to cook?"
+            return self.recipe_request(user_text = user_text)
 
         if intent == IntentType.TIMER_CREATE:
-            duration_seconds = self.timer_service.parse_time(user_text)
-            parsed_timer_name = self.timer_service.parse_timer_name(user_text)
-
-            if duration_seconds > 0:
-                self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer {timer.id} ended."))
-
-                return f"Timer set for {duration_seconds} seconds."
-
-            else: 
-                return f"Could you please specify the duration for the timer?"
-        
-        if intent == IntentType.CONFIRMATION and session.current_recipe:
-            step = session.current_step
-
-            if session.current_step < len(session.current_recipe.steps):
-                return f"Great! Next step: {session.current_recipe.steps[session.current_step]}"
-            
-            
-            session.current_recipe = None
-            session.current_step = 0
-            return "You've completed the recipe! Enjoy your meal."
+            return self.timer_create(user_text = user_text)
 
         if intent == IntentType.FREE_CHAT:
-            pass
+            return self.free_chat(user_text = user_text)
+        
+        if intent == IntentType.SMALL_TALK:
+            return self.small_talk(user_text = user_text)
 
-        return f"You said: {user_text}"
+        if intent == IntentType.IMAGE_ANALYSIS:
+            return self.image_analysis(user_text = user_text)
+
+        if intent == IntentType.RECIPE_SUGESTION:
+            return self.recipe_suggestion(user_text = user_text)
+
+        return self.unknown_intent(user_text = user_text)
+
+    def greeting(self, user_text: str) -> str:
+        return "Hello! How can I assist you today?"
+
+    def recipe_request(self, user_text: str) -> str:
+        recipe_session = self.recipe_service.get_recipe(user_text)
+        if not recipe_session:
+            recipes = self.recipe_service.list_recipes()
+            recipe_names = ', '.join([recipe.name for recipe in recipes])
+            return f"Sorry, I couldn't find that recipe. Here are some recipes you can try: {recipe_names}."
+        
+        first_step = recipe_session.steps[0]
+        return f"Great! Let's start cooking. First step: {first_step}"
+    
+    def timer_create(self, user_text: str) -> str:
+        duration_seconds = self.timer_service.parse_time(user_text)
+        parsed_timer_name = self.timer_service.parse_timer_name(user_text)
+
+        if duration_seconds > 0:
+            self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer {timer.id} ended."))
+
+            return f"Timer set for {duration_seconds} seconds."
+
+        else: 
+            return f"Could you please specify the duration for the timer?"
+        
+    def confirmation(self, user_text: str, session) -> str:
+        step = session.current_step
+
+        if session.current_step < len(session.current_recipe.steps):
+            session.current_step += 1
+            return f"Great! Next step: {session.current_recipe.steps[session.current_step - 1]}"
+        
+        
+        session.current_recipe = None
+        session.current_step = 0
+        return "You've completed the recipe! Enjoy your meal."
+    
+    def free_chat(self, user_text: str) -> str:
+        return "Let's chat! What would you like to talk about?"
+    
+    def small_talk(self, user_text: str) -> str:
+        return "I'm here to chat! How's your day going?"
+    
+    def image_analysis(self, user_text: str) -> str:
+        return "Please upload an image for analysis."
+    
+    def recipe_suggestion(self, user_text: str) -> str:
+        recipes = self.recipe_service.list_recipes()
+        recipe_names = ', '.join([recipe.name for recipe in recipes])
+        return f"Here are some recipe suggestions: {recipe_names}."
+    
+    def unknown_intent(self, user_text: str) -> str:
+        return "I'm not sure how to help with that. Could you please rephrase?"
+    
