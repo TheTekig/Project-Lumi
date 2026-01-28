@@ -10,6 +10,7 @@ intent_router = IntentRouterService()
 
 class ChatRequest(BaseModel):
     message: str
+    session_id : str | None = None 
 
 
 class ChatResponse(BaseModel):
@@ -18,7 +19,7 @@ class ChatResponse(BaseModel):
 
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
-    dto = UserInputDTO(message=request.message)
+    dto = UserInputDTO(message=request.message, session_id = request.session_id)
     process_user_input = ProcessUserInputUseCase()
 
 

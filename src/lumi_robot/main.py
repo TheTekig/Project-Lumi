@@ -1,0 +1,35 @@
+from lumi_robot.voice.stt_service import SpeechToTextService
+from lumi_robot.voice.tts_service import TextToSpeechService
+from lumi_robot.client.client import BackendClient
+import time
+
+def main():
+    print("Lumi Inicializada")
+
+    stt = SpeechToTextService()
+    tts = TextToSpeechService()
+    backend = BackendClient()
+
+    while True:
+        print("Lumi Esperando por Wake-Word")
+        if stt.wait_for_wake_word():
+            transciption = stt.listen_command()
+            print(f"command : {transciption}")
+
+            if not transciption:
+                print("None")
+                continue
+            
+            reply = backend.send_command(transciption)
+            print(f"Reply : {reply}")
+
+            tts.speak(reply)
+            time.sleep(1)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
