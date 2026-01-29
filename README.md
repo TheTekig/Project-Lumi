@@ -152,27 +152,21 @@ A LUMI acompanha a interação do usuário e realiza **check-ins automáticos in
 
 ## 🗺️ Roadmap do Projeto
 
-| Fase | Descrição |
-|---------|--------------|
-| 🧱 Fase 0 | Conceito, identidade, arquitetura e documentação |
-| 🚀 Fase 1 | Backend central + integração com IA (MVP) |
-| 🧠 Fase 2 | Memória persistente e motor de contexto |
-| 🗣️ Fase 3 | Interação por voz (STT + TTS) |
-| 🤖 Fase 4 | Protótipo físico do robô (LUMI Lite) |
-| 🌟 Fase 5 | Versão Deluxe — experiência completa do produto |
+| Fase | Nome | Objetivo | Principais Entregas | Status |
+|--------|-------|-------------|------------------------|----------|
+| 0 | Fundação | Definir identidade, arquitetura e visão do projeto | Conceito, arquitetura, diagramas, README, estrutura dos repositórios | ✅ Concluída |
+| 1 | Backend Core (MVP Cognitivo) | Construir o núcleo inteligente do sistema | FastAPI, Intent Router, Sessions, Timers, UseCases, arquitetura limpa | 🚧 Em andamento |
+| 2 | Robô Lumi (Voz + Interface Física) | Implementar interação por voz e controle do robô | STT, TTS, Wake-word, Backend Client, loop principal | 🚧 Em andamento |
+| 3 | Motor Culinário | Criar o sistema de acompanhamento de receitas | Fluxo de receitas, etapas, timers automáticos, contexto | ⏳ Planejada |
+| 4 | IA Avançada | Integrar IA híbrida e otimizada | AI Providers, fallback, prompt engineering, cache | ⏳ Planejada |
+| 5 | Robô Físico | Construir o protótipo físico | Raspberry Pi, áudio, display, carcaça 3D | ⏳ Planejada |
+| 6 | Polimento & Portfólio | Finalização e apresentação profissional | Refatoração, testes, documentação final, vídeos | ⏳ Planejada |
 
 ---
 
-## 🧪 Status Atual
+### 📌 Status Atual
 
-| Módulo | Status |
-|------------|----------|
-| Conceito & Design | ✅ Concluído |
-| Arquitetura | ✅ Concluído |
-| Backend Base | 🟡 Em desenvolvimento |
-| Integração IA | ⏳ Planejado |
-| Interface por Voz | ⏳ Planejado |
-| Robô Físico | ⏳ Planejado |
+**Fase 1 e Fase 2 em desenvolvimento simultâneo.**
 
 ---
 
