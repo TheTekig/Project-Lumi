@@ -1,15 +1,19 @@
 from lumi.infrastructure.ai.openai_provider import OpenAIClient
+from lumi.infrastructure.ai.gemini_provider import GeminiProvider
 
 class AIProviderManager:
     def __init__(self):
         self.provider = [
-            OpenAIClient()
+            OpenAIClient(),
+            GeminiProvider()
         ]
 
     def generate(self, prompt: str) -> str:
         for provider in self.provider:
-            response = provider.execute_ai_response(prompt, provider.max_tokens)
+            response = provider.generate_text(prompt, provider.max_tokens)
             if response:
                 return response
-        return "Error: No AI provider available."
+        
+        print(response)
+        return print("Error: No AI provider available.")
         

@@ -42,7 +42,7 @@ class SpeechToTextService:
         print("Ouvindo Comando...")
         audio_file = self.record_audio(seconds = 5)
 
-        return self.transcribe.(audio_file)
+        return self.transcribe(audio_file)
 
         
 

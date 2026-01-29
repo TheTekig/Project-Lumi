@@ -20,6 +20,8 @@ class ChatResponse(BaseModel):
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
     dto = UserInputDTO(message=request.message, session_id = request.session_id)
+    print(f"\nReceived message: {dto.message}\nsession_id: {dto.session_id}\ndto timestamp: {dto.timestamp}\n")
+
     process_user_input = ProcessUserInputUseCase()
 
 

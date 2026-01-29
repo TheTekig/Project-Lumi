@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 from lumi.api.controllers.chat_controller import router as chat_router
 from lumi.api.controllers.health_controller import router as health_router

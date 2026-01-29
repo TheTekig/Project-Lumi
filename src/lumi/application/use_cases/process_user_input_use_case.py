@@ -4,6 +4,7 @@ from lumi.application.dto.user_input_dto import UserInputDTO
 from lumi.application.services.conversation_session_manager import ConversationSessionManager
 from lumi.application.services.recipe_service import RecipeService
 from lumi.infrastructure.database.recipe_repository import RecipeRepository
+from lumi.infrastructure.ai.provider_manager import AIProviderManager
 
 class ProcessUserInputUseCase:
 
@@ -22,24 +23,31 @@ class ProcessUserInputUseCase:
         session.last_intent = intent
 
         if intent == IntentType.GREETING:
+            print("Status: Greeting intent detected.\n")
             return self.greeting(user_text = user_text)
 
         if intent == IntentType.RECIPE_REQUEST:
+            print("Status: Recipe request intent detected.\n")
             return self.recipe_request(user_text = user_text)
 
         if intent == IntentType.TIMER_CREATE:
+            print("Status: Timer creation intent detected.\n")
             return self.timer_create(user_text = user_text)
 
         if intent == IntentType.FREE_CHAT:
+            print("Status: Free chat intent detected.\n")
             return self.free_chat(user_text = user_text)
         
         if intent == IntentType.SMALL_TALK:
+            print("Status: Small talk intent detected.\n")
             return self.small_talk(user_text = user_text)
 
         if intent == IntentType.IMAGE_ANALYSIS:
+            print("Status: Image analysis intent detected.\n")
             return self.image_analysis(user_text = user_text)
 
         if intent == IntentType.RECIPE_SUGESTION:
+            print("Status: Recipe suggestion intent detected.\n")
             return self.recipe_suggestion(user_text = user_text)
 
         return self.unknown_intent(user_text = user_text)
@@ -62,7 +70,7 @@ class ProcessUserInputUseCase:
         parsed_timer_name = self.timer_service.parse_timer_name(user_text)
 
         if duration_seconds > 0:
-            self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer {timer.id} ended."))
+            self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer: {timer.id} - ended."))
 
             return f"Timer set for {duration_seconds} seconds."
 
@@ -82,7 +90,12 @@ class ProcessUserInputUseCase:
         return "You've completed the recipe! Enjoy your meal."
     
     def free_chat(self, user_text: str) -> str:
-        return "Let's chat! What would you like to talk about?"
+        ai_provider_manager = AIProviderManager()
+        response = ai_provider_manager.generate(prompt=user_text)
+        if response:
+            return response
+        
+        return "Sorry, I couldn't process your request at the moment."
     
     def small_talk(self, user_text: str) -> str:
         return "I'm here to chat! How's your day going?"
