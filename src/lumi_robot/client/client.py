@@ -12,3 +12,16 @@ class BackendClient:
             json={"message": text, "session_id": session_id}
         )
         return response.json()["reply"]
+
+    def listen_events(self):
+        try:
+            response = requests.get(f"{self.base_url}/api/events", timeout=60)
+            if response.status_code == 200:
+                return response.json()
+        
+        except requests.exceptions.Timeout:
+            return None
+        except Exception as e:
+            print(f"Erro ao escutar eventos: {e}")
+            return None
+        

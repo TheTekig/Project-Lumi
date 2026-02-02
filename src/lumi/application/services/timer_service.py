@@ -3,11 +3,15 @@ import threading
 import time
 
 from lumi.domain.entities.timer import Timer
+from lumi.infrastructure.event_bus.event_bus import event_bus
+
+
 
 class TimerService:
 
     def __init__(self):
         self.active_timers : dict[str,Timer] = {}
+
 
     def parse_time(self, message: str) -> int:
         
@@ -104,6 +108,11 @@ class TimerService:
             self._notify_checkpoint(timer, remaining)
 
         time.sleep(remaining)
+        event_bus.publish({ 
+            "type": "TIMER_FINISHED",
+            "message" : f"Timer - {timer.id} finished" 
+            })
+        
         callback(timer)
 
         del self.active_timers[timer.id]
@@ -112,5 +121,16 @@ class TimerService:
         if remaining_seconds >= 60:
             minutes = remaining_seconds // 60
             print(f"\nTimer: {timer.id} - {minutes} minute(s) remaining.")
+            
+            event_bus.publish({
+                "type": "Alarm Reminder",
+                "message": f"\nTimer: {timer.id} - {minutes} minute(s) remaining."
+            })
+
         else:
             print(f"\nTimer: {timer.id} - {remaining_seconds} second(s) remaining.")
+            
+            event_bus.publish({
+                "type": "Alarm Reminder",
+                "message": f"\nTimer: {timer.id} - {remaining_seconds} second(s) remaining."
+            })

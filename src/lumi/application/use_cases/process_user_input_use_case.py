@@ -3,8 +3,10 @@ from lumi.application.services.intent_router_service import IntentRouterService,
 from lumi.application.dto.user_input_dto import UserInputDTO
 from lumi.application.services.conversation_session_manager import ConversationSessionManager
 from lumi.application.services.recipe_service import RecipeService
+from lumi.application.use_cases.process_ia_input_use_case import ProcessIAInputCase
 from lumi.infrastructure.database.recipe_repository import RecipeRepository
 from lumi.infrastructure.ai.provider_manager import AIProviderManager
+
 
 class ProcessUserInputUseCase:
 
@@ -13,6 +15,7 @@ class ProcessUserInputUseCase:
         self.timer_service = TimerService()
         self.session_manager = ConversationSessionManager()
         self.recipe_service = RecipeService()
+        self.process_ia = ProcessIAInputCase()
 
     def execute(self, user_input_dto: UserInputDTO) -> str:
         user_text = user_input_dto.message.lower()
@@ -93,6 +96,7 @@ class ProcessUserInputUseCase:
         ai_provider_manager = AIProviderManager()
         response = ai_provider_manager.generate(prompt=user_text)
         if response:
+
             return response
         
         return "Sorry, I couldn't process your request at the moment."

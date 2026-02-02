@@ -26,6 +26,15 @@ def main():
             tts.speak(reply)
             time.sleep(1)
 
+        event = backend.listen_events()
+        if not event:
+            continue
+        if event["type"] == "TIMER_FINISHED":
+            tts.speak(event["message"])
+        if event["type"] == "Alarm Reminder":
+            tts.speak(event["message"])
+
+
 if __name__ == "__main__":
     main()
 
