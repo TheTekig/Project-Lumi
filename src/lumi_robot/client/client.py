@@ -1,5 +1,5 @@
 import requests
-from lumi_robot.core.settings import Settings
+from core.settings import Settings
 
 class BackendClient:
     def __init__(self):

@@ -1,8 +1,13 @@
 import subprocess
 import uuid
 import os
+import wave
 
-from lumi_robot.core.settings import Settings
+from piper import PiperVoice , SynthesisConfig
+
+from pathlib import Path
+from core.settings import Settings
+
 import sounddevice as sd
 from scipy.io.wavfile import read
 
@@ -11,33 +16,35 @@ class TextToSpeechService:
         self.settings = Settings()
         self.model_path = self.settings.TTS_MODEL_PATH
 
+
+
     def speak(self, text: str):
 
-        filename = f"tts_{uuid.uuid4()}.wav"
+        filename = f"./src/lumi_robot/voice/temp/tts_{uuid.uuid4()}.wav"
 
-        self.generate_audio(text, filename)
+        self.generate_audio(text, str(filename))
+
         self.play_audio(filename)
         os.remove(filename)
 
     def generate_audio(self, text:str, output_file:str):
-
-        command = [
-            "piper",
-            "--model", self.settings.TTS_MODEL_PATH,
-            "--output_file", output_file
-        ]
-
-        subprocess.run(
-            command,
-            input=text.encode("utf-8"),
-            stdout = subprocess.DEVNULL,
-            stdeer = subprocess.DEVULL
+        
+        syn_config = SynthesisConfig(
+            volume=0.5, 
+            length_scale=0.6, 
+            noise_scale=1.0, 
+            noise_w_scale=1.0, 
+            normalize_audio=False, 
         )
+
+        voice = PiperVoice.load(Path(self.model_path))
+        with wave.open(output_file, "wb") as wf:
+            voice.synthesize_wav(text, wf, syn_config)
+        
 
     def play_audio(self, audio_file: str):
 
         fs, audio = read(audio_file)
-
         sd.play(audio, fs, device=self.settings.AUDIO_DEVICE)
         sd.wait()
        

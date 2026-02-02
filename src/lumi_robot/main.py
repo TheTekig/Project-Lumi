@@ -1,6 +1,6 @@
-from lumi_robot.voice.stt_service import SpeechToTextService
-from lumi_robot.voice.tts_service import TextToSpeechService
-from lumi_robot.client.client import BackendClient
+from voice.stt_service import SpeechToTextService
+from voice.tts_service import TextToSpeechService
+from client.client import BackendClient
 import time
 
 def main():
@@ -13,6 +13,7 @@ def main():
     while True:
         print("Lumi Esperando por Wake-Word")
         if stt.wait_for_wake_word():
+            print("Lumi Ativa. Ouvindo comando...")
             transciption = stt.listen_command()
             print(f"command : {transciption}")
 
@@ -37,6 +38,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
 
 
