@@ -158,7 +158,7 @@ A LUMI acompanha a interação do usuário e realiza **check-ins automáticos in
 | 1 | Backend Core (MVP Cognitivo) | Construir o núcleo inteligente do sistema | FastAPI, Intent Router, Sessions, Timers, UseCases, arquitetura limpa | 🚧 Em andamento |
 | 2 | Robô Lumi (Voz + Interface Física) | Implementar interação por voz e controle do robô | STT, TTS, Wake-word, Backend Client, loop principal | 🚧 Em andamento |
 | 3 | Motor Culinário | Criar o sistema de acompanhamento de receitas | Fluxo de receitas, etapas, timers automáticos, contexto | ⏳ Planejada |
-| 4 | IA Avançada | Integrar IA híbrida e otimizada | AI Providers, fallback, prompt engineering, cache | ⏳ Planejada |
+| 4 | IA Avançada | Integrar IA híbrida e otimizada | AI Providers, fallback, prompt engineering, cache | 🚧 Em andamento |
 | 5 | Robô Físico | Construir o protótipo físico | Raspberry Pi, áudio, display, carcaça 3D | ⏳ Planejada |
 | 6 | Polimento & Portfólio | Finalização e apresentação profissional | Refatoração, testes, documentação final, vídeos | ⏳ Planejada |
 
