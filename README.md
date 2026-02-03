@@ -174,7 +174,6 @@ A LUMI acompanha a interação do usuário e realiza **check-ins automáticos in
 
 > Esta seção conterá **fotos reais, vídeos e demonstrações** do desenvolvimento e montagem física da LUMI.
 
-
 ---
 
 ## 🎯 Objetivo do Projeto
