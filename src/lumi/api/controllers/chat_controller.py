@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from lumi.application.services.intent_router_service import IntentRouterService, IntentType
+from lumi.application.services.intent_router_service import IntentRouterService
 from lumi.application.use_cases.process_user_input_use_case import ProcessUserInputUseCase
 from lumi.application.dto.user_input_dto import UserInputDTO
 
 router = APIRouter()
 intent_router = IntentRouterService()
 
-class ChatRequest(BaseModel):
+class ChatRequest(BaseModel):  
     message: str
     session_id : str | None = None 
 
