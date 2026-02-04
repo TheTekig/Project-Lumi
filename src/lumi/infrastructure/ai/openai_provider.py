@@ -15,8 +15,8 @@ class OpenAIClient(AIProvaider):
         self.max_tokens = self.settings.AI_MAX_TOKENS
 
     def inicialize_openai_client(self) -> OpenAI:
-        load_dotenv()
-        api_key = os.getenv("OPENAI_API_KEY")
+    
+        api_key = self.settings.AI_GPT_MODEL
 
         if not api_key:
             print("Error: OPENAI_API_KEY not found in environment variables.")

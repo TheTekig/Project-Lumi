@@ -1,0 +1,3 @@
+from lumi.application.services.conversation_session_manager import ConversationSessionManager
+
+session_manager = ConversationSessionManager()

@@ -17,8 +17,7 @@ class GeminiProvider(AIProvaider):
 
     
     def inicialize_gemini_client(self):
-        load_dotenv()
-        api_key = os.getenv("GEMINI_API_KEY")
+        api_key = self.settings.GEMINI_API_KEY
         if not api_key:
             print("Error: GEMINI_API_KEY not found in environment variables.")
             return None

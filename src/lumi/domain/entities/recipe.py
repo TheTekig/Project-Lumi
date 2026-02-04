@@ -4,6 +4,7 @@ from dataclasses import dataclass
 class Recipe:
     name: str
     steps: list[str]
+    description: str
     ingredients: list[str]
 
     

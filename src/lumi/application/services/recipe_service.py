@@ -6,7 +6,7 @@ import re
 class RecipeService:
     def __init__(self):
         self.recipe_repository = RecipeRepository()
-        self.recipe_session = RecipeSession()
+        self.recipe_session: RecipeSession
 
     def parse_recipe_name(self, user_text) -> str | None:
         message = user_text.lower()
@@ -29,7 +29,8 @@ class RecipeService:
         
         return recipe if recipe else None
 
-    def create_recipe_session(self, user_text):
+
+    def create_recipe_session(self, user_text) -> RecipeSession:
 
         name = self.parse_recipe_name(user_text)
         recipe = self.recipe_repository.get_recipe_by_name(name)

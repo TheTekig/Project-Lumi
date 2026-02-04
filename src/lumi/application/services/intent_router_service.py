@@ -5,7 +5,7 @@ class IntentRouterService:
     def detect(self, message: str) -> IntentType:
         message = message.lower()
 
-        if  any(word in message for word in ["hello", "hi", "hey", "oi", "ola", "saudações"]):
+        if  any(word in message for word in ["hello", "hey", "oi", "ola", "saudações"]):
             return IntentType.GREETING
         
         if re.search(r'(?:\b(set|create|start|começar|colocar|coloca|adicionar|iniciar|inicia)\b\s*)?(?:um|o\s+)?\b(timer|alarme|alarm|lembrete|cron[oô]metro)\b', message):

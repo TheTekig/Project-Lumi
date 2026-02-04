@@ -12,11 +12,13 @@ class RecipeSession():
         session.current_recipe = recipe
         session.current_step = 0
         session.active = True
-        
         return session
 
     def get_current_step(self):
-        return self.current_recipe.steps[self.current_step]
+        return self.current_recipe.steps[self.current_step - 1]
+    
+    def get_recipe_description(self) -> str:
+        return self.current_recipe.description
 
     def next_step(self):
         self.current_step += 1

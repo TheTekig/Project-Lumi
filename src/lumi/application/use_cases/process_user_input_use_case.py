@@ -5,14 +5,14 @@ from lumi.application.services.conversation_session_manager import ConversationS
 from lumi.application.services.recipe_service import RecipeService
 from lumi.application.use_cases.process_ia_input_use_case import ProcessIAInputCase
 from lumi.infrastructure.ai.provider_manager import AIProviderManager
-
+from lumi.infrastructure.singletons import session_manager
 
 class ProcessUserInputUseCase:
 
     def __init__(self):
         self.intent_router = IntentRouterService()
         self.timer_service = TimerService()
-        self.session_manager = ConversationSessionManager()
+        self.session_manager = session_manager
         self.recipe_service = RecipeService()
         self.process_ia = ProcessIAInputCase()
 
@@ -59,7 +59,7 @@ class ProcessUserInputUseCase:
 
             case IntentType.CONFIRMATION:
                 print("Status: Step confirm")
-                return self.confirm_step(self, session)
+                return self.confirm_step(session)
 
             case _:
                 return self.unknown_intent(user_text = user_text)
@@ -71,7 +71,13 @@ class ProcessUserInputUseCase:
     def recipe_request(self, session, user_text: str) -> str:
         
         recipe_session = self.recipe_service.create_recipe_session(user_text)
+        
+        if not recipe_session:
+            return "Receita não encontrada"
+        
         session.current_recipe = recipe_session
+        recipe_description = session.current_recipe.get_recipe_description()
+        return recipe_description + "Lets Start?"
         
     
     def timer_create(self, user_text: str) -> str:
@@ -92,12 +98,12 @@ class ProcessUserInputUseCase:
             return "Não há nenhuma receita em andamento"
         
         next_step = recipe_session.next_step()
-
+        print(next_step)
         if not next_step:
             session.current_recipe = None
             return "Receita Finalizada"
     
-        return recipe_session.current_recipe.steps[next_step]
+        return next_step
     
     def free_chat(self, user_text: str) -> str:
         ai_provider_manager = AIProviderManager()
