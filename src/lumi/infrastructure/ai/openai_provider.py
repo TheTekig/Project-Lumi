@@ -16,7 +16,7 @@ class OpenAIClient(AIProvaider):
 
     def inicialize_openai_client(self) -> OpenAI:
     
-        api_key = self.settings.AI_GPT_MODEL
+        api_key = self.settings.OPENAI_API_KEY
 
         if not api_key:
             print("Error: OPENAI_API_KEY not found in environment variables.")

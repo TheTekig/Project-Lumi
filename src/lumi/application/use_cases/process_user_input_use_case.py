@@ -4,6 +4,8 @@ from lumi.application.dto.user_input_dto import UserInputDTO
 from lumi.application.services.conversation_session_manager import ConversationSessionManager
 from lumi.application.services.recipe_service import RecipeService
 from lumi.application.use_cases.process_ia_input_use_case import ProcessIAInputCase
+from lumi.application.services.whatsapp_service import WhatsAppService
+from lumi.application.services.recipe_flow import recipeFlowService
 from lumi.infrastructure.ai.provider_manager import AIProviderManager
 from lumi.infrastructure.singletons import session_manager
 
@@ -14,7 +16,9 @@ class ProcessUserInputUseCase:
         self.timer_service = TimerService()
         self.session_manager = session_manager
         self.recipe_service = RecipeService()
+        self.recipe_flow_service = recipeFlowService()
         self.process_ia = ProcessIAInputCase()
+        self.whatsapp_service = WhatsAppService()
 
     def execute(self, user_input_dto: UserInputDTO) -> str: 
 
@@ -60,11 +64,87 @@ class ProcessUserInputUseCase:
             case IntentType.CONFIRMATION:
                 print("Status: Step confirm")
                 return self.confirm_step(session)
+            
+            case IntentType.RECIPE_DETAILS:
+                print("Status: Recipe details intent detected.\n")
+                session_recipe = session.current_recipe
+                if not session_recipe or not session_recipe.active:
+                    return "Não há nenhuma receita em andamento"
+                ingredients =  session_recipe.list_ingredients()
+                self.whatsapp_service.send_message(ingredients)
+                return "Ingredients have been sent to your WhatsApp."
 
+            case IntentType.MANAGE_RECIPE:
+                print("Status: Manage recipe intent detected.\n")
+                return self.manage_recipe(session, user_text)
+            
             case _:
                 return self.unknown_intent(user_text = user_text)
 
     
+    def manage_recipe(self, session, user_text: str) -> str:
+        
+        if not session.current_recipe or not session.current_recipe.active:
+            return "Não há nenhuma receita em andamento"
+        
+        else:
+            if any(word in user_text for word in [
+                "next step", "next", "próximo passo", "próximo", "seguinte",
+                ]):
+                recipe_session = session.current_recipe
+                if not recipe_session or not recipe_session.active:
+                    return "Não há nenhuma receita em andamento"
+                
+                next_step = recipe_session.next_step()
+                print(next_step)
+                if not next_step:
+                    session.current_recipe = None
+                    return "Receita Finalizada"
+            
+                return next_step
+            if any(word in user_text for word in [
+                "previous step", "previous", "passo anterior", "anterior",
+                ]):
+                recipe_session = session.current_recipe
+                if not recipe_session or not recipe_session.active:
+                    return "Não há nenhuma receita em andamento"
+                
+                previous_step = recipe_session.previus_step()
+                print(previous_step)
+            
+                return previous_step
+            if any(word in user_text for word in [
+                "actual step", "execute step", "execute", "atual passo", "atual", "repeat step", "repeat", "repita passo", "repita",
+                ]):
+                recipe_session = session.current_recipe
+                if not recipe_session or not recipe_session.active:
+                    return "Não há nenhuma receita em andamento"
+                
+                actual_step = recipe_session.get_current_step()
+                print(actual_step)
+            
+                return actual_step
+            if any(word in user_text for word in [
+                "list ingredients", "ingredients", "lista de ingredientes", "ingredientes",
+                ]):
+                recipe_session = session.current_recipe
+                if not recipe_session or not recipe_session.active:
+                    return "Não há nenhuma receita em andamento"
+                
+                ingredients = recipe_session.list_ingredients()
+                print(ingredients)
+            
+                return ingredients
+            
+            if any(word in user_text for word in [
+                "whatsapp", "analyze image", "analisar imagem",
+                ]):
+                return "not implemented yet" 
+        
+        
+        
+        pass
+
     def greeting(self, user_text: str) -> str:
         return "Hello! How can I assist you today?"
 
@@ -77,8 +157,7 @@ class ProcessUserInputUseCase:
         
         session.current_recipe = recipe_session
         recipe_description = session.current_recipe.get_recipe_description()
-        return recipe_description + "Lets Start?"
-        
+        return recipe_description + "Lets Start?"   
     
     def timer_create(self, user_text: str) -> str:
         duration_seconds = self.timer_service.parse_time(user_text)

@@ -17,7 +17,7 @@ class RecipeRepository:
                 ]
             ),
 
-            "White Rice": Recipe(
+            "recipe white rice": Recipe(
                 name="White Rice",
                 ingredients=["1 cup white rice", "2 cups water", "1/2 teaspoon salt", "1 tablespoon butter (optional)"],
                 description= "White rice is a staple, refined, and highly versatile grain, specifically processed by removing the husk, bran, and germ to leave only the white starchy endosperm",

@@ -1,4 +1,4 @@
-import request
+import requests as request
 from lumi.core.config.settings import Settings
 
 class WhatsAppService:
@@ -8,7 +8,7 @@ class WhatsAppService:
 
     
     def send_message(self, text:str):
-        url = f"https://graph.facebook.com/v19.0/{self.settings.WHATSAPP_PHONE_NUMBER_ID}/messages"
+        url = f"https://graph.facebook.com/v22.0/{self.settings.WHATSAPP_PHONE_NUMBER_ID}/messages"
 
         headers = {
             "Authorization" : f"" f"Bearer {self.settings.WHATSAPP_TOKEN}",
@@ -22,4 +22,8 @@ class WhatsAppService:
             "text" : {"body": text}
         }
 
-        request.post(url, json=payload, headers=headers)
+        print("Sending WhatsApp message...")
+        print(f"Mensage sent to {self.settings.MY_PHONE_NUMBER}: {text}")
+        response =request.post(url, json=payload, headers=headers)
+        print(response.status_code)
+        print(response.text)
