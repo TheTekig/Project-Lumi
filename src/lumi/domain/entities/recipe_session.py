@@ -27,6 +27,17 @@ class RecipeSession():
             self.active = False
             return None
 
-        return self.get_current_step()        
+        return self.get_current_step()
+
+    def previus_step(self):
+        if self.current_step < len(self.current_recipe.steps):
+            return "Não possui passo anterior"
+        
+        self.current_step -= 1
+
+        return self.get_current_step()
+
+    def list_ingredients(self):
+        return "\n".join(f"➡ {i}" for i in self.current_recipe.ingredients)
     
 
