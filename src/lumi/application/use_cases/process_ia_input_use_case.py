@@ -1,34 +1,34 @@
-from lumi.application.services.timer_service import TimerService
+from lumi.application.timer.timer_service import TimerService
+from lumi.application.dto.user_input_dto import UserInputDTO
+
+import re
 
 class ProcessIAInputCase:
-    def __init__(self):
+    def __init__(self, user_input_use_case):
         self.timer = TimerService()
+        self.user_input_uc = user_input_use_case
 
-    def ia_process(self,ia_response):
-        
-        if "[CREATE_TIME]" in ia_response :
-            clean_text = ia_response.replace("[CREATE_TIMER]", "")
+
+    def execute(self, ai_text: str, session_id:str ) -> str:
+        clean_text, tags = self.extract_tags(ai_text)
+        self.handle_tags(tags, session_id, clean_text)
+
+        return clean_text
+
+    def extract_tags(self, text):
+        tags = re.findall(r'\[(.*?)\]', text)
+        clean_text = re.sub(r'\[.*?\]', '', text).strip()
+        return clean_text, tags
+    
+    def handle_tags(self, tags, session_id, clean_text):
+        for tag in tags:
+            if tag in ["CREATE_TIMER", "NEXT_STEP", "PREVIOUS_STEP", "REPEAT_STEP", "LIST_INGREDIENTS"]:
+                dto = UserInputDTO(
+                    message = clean_text,
+                    session_id=session_id,
+                    source="system"
+                )
+                self.user_input_uc.execute(dto)
             
-            duration = self.timer.parse_time(clean_text)
-            alarm_id = self.time.parse_timer_name(clean_text)
-            self.timer.create_timer(alarm_id, duration, lambda timer:print("Timer: {timer.id} - Ended"))
-            
-            return clean_text
-            pass
-        
-        elif "[CREATE_RECIPE]" in ia_response:
-            clean_text = ia_response.replace("[CREATE_TIMER]", "")
-            return clean_text
-
-        elif "[NEXT_STEP]" in ia_response:
-            clean_text = ia_response.replace("[CREATE_TIMER]", "")
-            return clean_text
-
-        elif "[START_RECIPE]" in ia_response:
-            clean_text = ia_response.replace("[CREATE_TIMER]", "")
-            return clean_text
-
-        else:
-            return ia_response
-        
+                
 

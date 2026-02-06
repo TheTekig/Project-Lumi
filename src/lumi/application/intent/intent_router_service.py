@@ -10,9 +10,6 @@ class IntentRouterService:
         
         if re.search(r'(?:\b(set|create|start|começar|colocar|coloca|adicionar|iniciar|inicia)\b\s*)?(?:um|o\s+)?\b(timer|alarme|alarm|lembrete|cron[oô]metro)\b', message):
             return IntentType.TIMER_CREATE  
-
-        if any(word in message for word in ["recipe", "how to make", "cook", "receita", "preparar", "como fazer"]):
-            return IntentType.RECIPE_REQUEST
         
         if any(word in message for word in [
             "next step", "next", "próximo passo", "próximo", "seguinte",
@@ -21,6 +18,7 @@ class IntentRouterService:
             "repeat step", "repeat", "repita passo", "repita",
             "list ingredients", "ingredients", "lista de ingredientes", "ingredientes",
             "whatsapp", "analyze image", "analisar imagem",
+            "recipe", "how to make", "cook", "receita", "preparar", "como fazer"
             ]):
             return IntentType.MANAGE_RECIPE
 

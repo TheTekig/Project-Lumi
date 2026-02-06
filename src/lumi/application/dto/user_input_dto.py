@@ -3,6 +3,14 @@ from datetime import datetime
 
 @dataclass
 class UserInputDTO:
-    message: str
-    session_id: str | None = None
-    timestamp: datetime = datetime.utcnow()
+    def __init__(self,
+    message: str,
+    session_id: str,
+    timestamp: datetime = datetime.utcnow(),
+    source: str = "user"):
+        self.message = message
+        self.session_id = session_id
+        self.source = source
+        self.timestamp = timestamp
+        
+

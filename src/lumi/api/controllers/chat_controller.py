@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from lumi.application.services.intent_router_service import IntentRouterService
-from lumi.application.use_cases.process_user_input_use_case import ProcessUserInputUseCase
+from lumi.application.intent.intent_router_service import IntentRouterService
 from lumi.application.dto.user_input_dto import UserInputDTO
-
+from lumi.application.orchestrators.conversation_orchestrator import ConversationOrchestrator
 router = APIRouter()
 intent_router = IntentRouterService()
+orchestrator = ConversationOrchestrator()
 
 class ChatRequest(BaseModel):  
     message: str
@@ -20,10 +20,8 @@ class ChatResponse(BaseModel):
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
     dto = UserInputDTO(message=request.message, session_id = request.session_id)
-    print(f"\nReceived message: {dto.message}\nsession_id: {dto.session_id}\ndto timestamp: {dto.timestamp}\n")
+    print(f"\nReceived message: {dto.message}\nsession_id: {dto.session_id}\ndto source: {dto.source}\ndto timestamp: {dto.timestamp}\n")
 
-    process_user_input = ProcessUserInputUseCase()
+    response = orchestrator.handle_user_message(dto)
 
-
-    response = process_user_input.execute(dto)
     return ChatResponse(reply=response)
