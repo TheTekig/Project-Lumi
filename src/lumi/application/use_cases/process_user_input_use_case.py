@@ -1,10 +1,8 @@
 from lumi.application.timer.timer_service import TimerService
 from lumi.application.intent.intent_router_service import IntentRouterService, IntentType
 from lumi.application.dto.user_input_dto import UserInputDTO
-from lumi.application.use_cases.process_ia_input_use_case import ProcessIAInputCase
 from lumi.application.services.whatsapp_service import WhatsAppService
 from lumi.application.recipe.recipe_flow import RecipeFlowService
-from lumi.infrastructure.ai.provider_manager import AIProviderManager
 from lumi.infrastructure.singletons import session_manager
 
 class ProcessUserInputUseCase:
@@ -14,12 +12,12 @@ class ProcessUserInputUseCase:
         self.timer_service = TimerService()
         self.session_manager = session_manager
         self.recipe_flow_service = RecipeFlowService()
-        self.process_ia = ProcessIAInputCase()
         self.whatsapp_service = WhatsAppService()
 
     def execute(self, user_input_dto: UserInputDTO) -> str: 
 
         """Metodo responsavel pelo processamento do input do Usuario, ele trata o input e devolve"""
+        print(f"\nReceived message: {user_input_dto.message}\nsession_id: {user_input_dto.session_id}\ndto source: {user_input_dto.source}\ndto timestamp: {user_input_dto.timestamp}\n")
 
         user_text = user_input_dto.message.lower()
         intent = self.intent_router.detect(user_text)
@@ -41,14 +39,15 @@ class ProcessUserInputUseCase:
 
             case IntentType.FREE_CHAT:
                 print("Status: Free chat intent detected.\n")
-                return   
+                return intent
 
             case IntentType.MANAGE_RECIPE:
                 print("Status: Manage recipe intent detected.\n")
                 if user_input_dto.source == "ai":
                     return ""
-                return self.recipe_flow_service.manage_recipe(session, user_text)
-            
+                response = self.recipe_flow_service.manage_recipe(session, user_text)
+                return response
+
             case _:
                 return self.unknown_intent(user_text = user_text)
 
@@ -66,16 +65,6 @@ class ProcessUserInputUseCase:
 
         else: 
             return f"Could you please specify the duration for the timer?"
-    
-    def free_chat(self, user_text: str, session_id:str) -> str:
-        ai_provider_manager = AIProviderManager()
-        response = ai_provider_manager.generate(prompt=user_text)
-
-        if response:
-            self.process_ia.execute(response, session_id)
-            return response
-        
-        return "Sorry, I couldn't process your request at the moment."
     
     def unknown_intent(self, user_text: str) -> str:
         return "I'm not sure how to help with that. Could you please rephrase?"

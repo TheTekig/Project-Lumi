@@ -36,7 +36,6 @@ class RecipeRepository:
         recipe = self._recipes.get(name.lower())
         if not recipe:
             print("receita não encontrada")
-        print(recipe)
         return recipe
     
     def list_all_recipes(self) -> list[Recipe]:

@@ -30,8 +30,8 @@ class RecipeSession():
         return self.get_current_step()
 
     def previus_step(self):
-        if self.current_step < len(self.current_recipe.steps):
-            return "Não possui passo anterior"
+        #if self.current_step < len(self.current_recipe.steps):
+           # return "Não possui passo anterior"
         
         self.current_step -= 1
 

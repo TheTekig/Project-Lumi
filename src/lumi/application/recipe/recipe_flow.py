@@ -5,17 +5,20 @@ from lumi.application.recipe.recipe_service import RecipeService
 class RecipeFlowService:
     def __init__(self):
         self.intent_router = IntentRecipeRouterService()
-        self.recipe_service = RecipeService
+        self.recipe_service = RecipeService()
 
     def manage_recipe(self, session, user_text) -> str:
 
         intent = self.intent_router.detect(user_text)
 
         if not session.current_recipe or not session.current_recipe.active:
-            self.handle_no_active_recipe(session, user_text, intent)
-        self.handle_active_recipe(session, user_text, intent)
+            return self.handle_no_active_recipe(session, user_text, intent)
+        return self.handle_active_recipe(session, user_text, intent)
+        
     
     def handle_no_active_recipe(self, session, user_text, intent):
+        print("Status: no recipe active path")
+        print(f"Status: Intent - {intent}")
         match intent:
             case RecipeIntentType.RECIPE_REQUEST:
                 return self.recipe_request(session,user_text)
@@ -26,16 +29,18 @@ class RecipeFlowService:
         
     
     def handle_active_recipe(self, session, user_text, intent):
+        print("Status: recipe active path")
+        print(f"Status: Intent - {intent}")
         match intent:
        
             case RecipeIntentType.NEXT_STEP:
                 return self.next_step(session)
             
             case RecipeIntentType.PREVIOUS_STEP:
-                return self.previous_step()
+                return self.previous_step(session)
             
             case RecipeIntentType.ACTUAL_STEP:
-                return self.actual_step()
+                return self.actual_step(session)
             
             case RecipeIntentType.LIST_RECIPE:
                 return self.list_ingredients(session)

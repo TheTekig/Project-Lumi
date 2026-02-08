@@ -2,6 +2,7 @@ from lumi.application.dto.user_input_dto import UserInputDTO
 from lumi.application.use_cases.process_ia_input_use_case import ProcessIAInputCase
 from lumi.application.use_cases.process_user_input_use_case import ProcessUserInputUseCase
 from lumi.infrastructure.ai.provider_manager import AIProviderManager
+from lumi.domain.enums.intent_type import IntentType
 
 class ConversationOrchestrator:
     def __init__(self):
@@ -13,7 +14,7 @@ class ConversationOrchestrator:
         response = self.user_uc.execute(dto)
 
         if response == IntentType.FREE_CHAT:
-            ai_text = self.ai_provider.generate(text)
-            return self.ai_uc_execute(ai_text, session_id)
+            ai_text = self.ai_provider.generate(dto.message)
+            return self.ai_uc.execute(ai_text, dto.session_id)
         
         return response

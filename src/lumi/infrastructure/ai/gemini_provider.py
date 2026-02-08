@@ -36,10 +36,10 @@ class GeminiProvider(AIProvaider):
                      - Responda de forma curta, clara, simpatica e objetiva.
                      - Sempre que você decidir tomar uma ação pelo usuario (como colocar alarmes, começar receitas, mover para o proxímo passo), você DEVE incluir a marcação correspondente no final da sentença: 
 
-                      *[CREATE_TIMER] - Utilize essa marcação caso queira deixar um alarme, ou uma mensagem programada para o usuario;
-                      *[CREATE_RECIPE] - Utilize essa marcação para criação de alguma receita;
-                      *[NEXT_STEP] - Utilize essa marcação que achar que o usuario esta preparado para o próximo passo da receita;
-                      *[START_RECIPE] - Utilize essa marcação quando quiser iniciar uma receita;
+                      [CREATE_TIMER] - Utilize essa marcação caso queira deixar um alarme, ou uma mensagem programada para o usuario;
+                      [CREATE_RECIPE] - Utilize essa marcação para criação de alguma receita;
+                      [NEXT_STEP] - Utilize essa marcação que achar que o usuario esta preparado para o próximo passo da receita;
+                      [START_RECIPE] - Utilize essa marcação quando quiser iniciar uma receita;
                      
                      - NUNCA EXPLIQUE AS TAGS
                      - NUNCA COLOQUE AS TAGS NO MEIO DA SENTENÇA
