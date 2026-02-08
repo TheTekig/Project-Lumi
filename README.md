@@ -195,7 +195,7 @@ Este projeto foi criado como um **projeto âncora de portfólio**, com o objetiv
 
 Desenvolvido por **Diogo Teodoro**  
 Estudante de Sistemas de Informação  
-Entusiasta em Backend, IA e Robótica  
+Entusiasta em Backend e IA 
 
 ---
 
