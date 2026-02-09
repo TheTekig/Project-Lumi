@@ -39,13 +39,15 @@ class ProcessUserInputUseCase:
 
             case IntentType.FREE_CHAT:
                 print("Status: Free chat intent detected.\n")
+                if user_input_dto.source == "ai" or user_input_dto == "system":
+                    return ""
                 return intent
 
             case IntentType.MANAGE_RECIPE:
                 print("Status: Manage recipe intent detected.\n")
                 if user_input_dto.source == "ai":
                     return ""
-                response = self.recipe_flow_service.manage_recipe(session, user_text)
+                response = self.recipe_flow_service.manage_recipe(session, user_text, user_input_dto.source)
                 return response
 
             case _:

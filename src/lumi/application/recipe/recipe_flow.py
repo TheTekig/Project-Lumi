@@ -1,19 +1,26 @@
 from lumi.domain.enums.recipe_intent_type import RecipeIntentType
 from lumi.application.intent.intent_recipe_router_service import IntentRecipeRouterService
 from lumi.application.recipe.recipe_service import RecipeService
+from lumi.infrastructure.event_bus.event_bus import event_bus
 
 class RecipeFlowService:
     def __init__(self):
         self.intent_router = IntentRecipeRouterService()
         self.recipe_service = RecipeService()
 
-    def manage_recipe(self, session, user_text) -> str:
+    def manage_recipe(self, session, user_text, input_source) -> str:
 
         intent = self.intent_router.detect(user_text)
 
         if not session.current_recipe or not session.current_recipe.active:
-            return self.handle_no_active_recipe(session, user_text, intent)
-        return self.handle_active_recipe(session, user_text, intent)
+            response = self.handle_no_active_recipe(session, user_text, intent)
+            if input_source == "system":
+                event_bus.publish({"type": "AI-System Request", "message": f"{response}" })
+            return response
+        response = self.handle_active_recipe(session, user_text, intent)
+        if input_source == "system":
+            event_bus.publish({"type": "AI-System Request", "message": f"{response}" })
+        return response
         
     
     def handle_no_active_recipe(self, session, user_text, intent):
