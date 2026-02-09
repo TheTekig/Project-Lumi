@@ -42,3 +42,9 @@ class RecipeService:
     def list_recipes(self):
         return self.recipe_repository.list_all_recipes()
 
+    def start_recipe(self, recipe_name):
+        recipe = self.recipe_repository.get_recipe_by_name(recipe_name)
+        if not recipe:
+            return None
+        
+        return RecipeSession(recipe)

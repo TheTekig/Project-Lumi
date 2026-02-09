@@ -2,9 +2,11 @@ from dataclasses import dataclass
 
 @dataclass
 class Recipe:
-    name: str
-    steps: list[str]
-    description: str
-    ingredients: list[str]
+    def __init__(self, name, description, steps, ingredients):
+
+        self.name = name
+        self.steps = steps
+        self.description = description
+        self.ingredients = ingredients
 
     
