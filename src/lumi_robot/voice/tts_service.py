@@ -31,10 +31,10 @@ class TextToSpeechService:
         
         syn_config = SynthesisConfig(
             volume=0.5, 
-            length_scale=0.6, 
+            length_scale=1.1, 
             noise_scale=1.0, 
             noise_w_scale=1.0, 
-            normalize_audio=False, 
+            normalize_audio=True, 
         )
 
         voice = PiperVoice.load(Path(self.model_path))

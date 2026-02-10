@@ -1,6 +1,7 @@
 from voice.stt_service import SpeechToTextService
 from voice.tts_service import TextToSpeechService
 from client.client import BackendClient
+from queue import Queue
 import threading
 import time
 
@@ -11,9 +12,19 @@ def main():
     tts = TextToSpeechService()
     backend = BackendClient()
 
+    speech_queue = Queue()
+
+    speech_thread = threading.Thread(
+        target=speech_worker,
+        args=(tts,speech_queue),
+        daemon=True
+    )
+
+    speech_thread.start()
+
     event_thread = threading.Thread(
         target= event_listener,
-        args=(backend, tts),
+        args=(backend, speech_queue),
         daemon=True
     )
 
@@ -31,13 +42,14 @@ def main():
                 continue
             
             reply = backend.send_command(transciption)
+            if not reply:
+                print("Backend returns None")
             print(f"Reply : {reply}")
 
-            tts.speak(reply)
-            time.sleep(1)
+            speech_queue.put(reply)
 
 
-def event_listener(backend, tts):
+def event_listener(backend, speech_queue):
     print("Event Listener Iniciado")
 
     while True:
@@ -49,17 +61,31 @@ def event_listener(backend, tts):
             print(f"Evento Recebido: {event}")
 
             if event["type"] == "TIMER_FINISHED":
-                tts.speak(event["message"])
+                speech_queue.put(event["message"])
 
             elif event["type"] == "Alarm Reminder":
-                tts.speak(event["message"])
+                speech_queue.put(event["message"])
 
             elif event["type"] == "AI_SYSTEM_REQUEST":
-                tts.speak(event["message"])
+                speech_queue.put(event["message"])
         
         except Exception as e:
             print("Erro no event_listener", e)
             time.sleep(2)
+
+def speech_worker(tts, speech_queue):
+    print("Speech worker iniciado")
+
+    while True:
+        text = speech_queue.get()
+        try:
+            tts.speak(text)
+        
+        except Exception as e:
+            print("Erro no TTS", e)
+        
+        finally:
+            speech_queue.task_done()
 
 
 if __name__ == "__main__":
