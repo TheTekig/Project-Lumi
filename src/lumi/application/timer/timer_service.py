@@ -7,13 +7,13 @@ from lumi.infrastructure.event_bus.event_bus import event_bus
 
 
 
-class TimerService:
+class TimerService: #Responsavel pela criação e gerenciamento dos timer ativos
 
     def __init__(self):
         self.active_timers : dict[str,Timer] = {}
 
 
-    def parse_time(self, message: str) -> int:
+    def parse_time(self, message: str) -> int: #Extrai o tempo do timer do input do usuario
         
         message = message.lower()
 
@@ -38,7 +38,7 @@ class TimerService:
 
         return 0
     
-    def parse_named_time(self, message: str) -> int:
+    def parse_named_time(self, message: str) -> int: #Reponsavel por extrair o tempo do timer no input do usuario com base em formas comumente faladas de tempo
         message = message.lower()
 
         named_times = {
@@ -61,7 +61,7 @@ class TimerService:
 
         return 0
     
-    def parse_timer_name(self, message: str) -> str:
+    def parse_timer_name(self, message: str) -> str: #Extrai o nome que dever ser direcionado ao timer
         message = message.lower()
 
         match = re.search(r'(?:timer|alarm|reminder|cronômetro|cronometro|alarme)\s+(?:para|pra|pro|do|da|de)\s+(.+?)(?:\s+(?:for|por|em|durante)|$)', message)
@@ -71,23 +71,23 @@ class TimerService:
         
         return "Unnamed Timer"
 
-    def create_timer(self, name: str, duration_seconds: int, callback) -> Timer:
-        timer = Timer.create(duration_seconds, name)
-        self.active_timers[timer.id] = timer
+    def create_timer(self, name: str, duration_seconds: int, callback) -> Timer: #Cria uma instancia do objeto timer para rodar em um outra thread para não travar o backend
+        timer = Timer.create(duration_seconds, name) #Cria uma instancio do objeto Timer
+        self.active_timers[timer.id] = timer #Adiciona o timer como ativo no Active_timers utilizando seu id 
 
-        thread = threading.Thread(target=self._run_timer, args=(timer, callback), daemon=True)
-        thread.start()
+        thread = threading.Thread(target=self._run_timer, args=(timer, callback), daemon=True) #define a thread para o rodar, sendo o target o método que sera rodado na thread o args sendo os paramentro.
+        thread.start()#Inicializa a Thread
 
-        print(f"Timer:{timer.id}\nDuration: {timer.duration_seconds} seconds\nCreated: {timer.created_at}\nEnds: {timer.ends_at}\nStatus: {timer.active}.\n")
+        print(f"Timer:{timer.id}\nDuration: {timer.duration_seconds} seconds\nCreated: {timer.created_at}\nEnds: {timer.ends_at}\nStatus: {timer.active}.\n") #Print um mini log da ação que foi inicializada
 
         return timer
 
 
-    def _run_timer(self, timer: Timer, callback):
+    def _run_timer(self, timer: Timer, callback): #Responsavel por rodar o timer
 
         total = timer.duration_seconds
 
-        checkpoints = []
+        checkpoints = [] #Pontos de checkpoint para realizar notificações
         
         if total > 300:
             checkpoints.append(300)
@@ -102,30 +102,30 @@ class TimerService:
 
         remaining = total
 
-        for checkpoint in checkpoints:
+        for checkpoint in checkpoints: #Passa checkpoin por checkpoint esperando o tempo corrento e notifica o checkpoint
             time.sleep(remaining - checkpoint)
             remaining = checkpoint
             self._notify_checkpoint(timer, remaining)
 
-        time.sleep(remaining)
+        time.sleep(remaining) # Faz ele esperar o tempo do checkpoint acabar
         event_bus.publish({ 
             "type": "TIMER_FINISHED",
             "message" : f"Timer - {timer.id} finished" 
-            })
+            }) #Manda o evento de Timer_Finished para a parte de Eventos para lumi falar
         
-        callback(timer)
+        callback(timer) # Faz o callback com a mensagem que o timer terminou
 
-        del self.active_timers[timer.id]
+        del self.active_timers[timer.id] #deleta o timer da lista de timers ativos
 
     def _notify_checkpoint(self, timer: Timer, remaining_seconds: int):
-        if remaining_seconds >= 60:
+        if remaining_seconds >= 60: # Verifica se falta mais de 1 minuto para formatação
             minutes = remaining_seconds // 60
             print(f"\nTimer: {timer.id} - {minutes} minute(s) remaining.")
             
             event_bus.publish({
                 "type": "Alarm Reminder",
                 "message": f"\nTimer: {timer.id} - {minutes} minute(s) remaining."
-            })
+            }) #Manda o evento Alarm Reminder para a parte de eventos para lumi falar
 
         else:
             print(f"\nTimer: {timer.id} - {remaining_seconds} second(s) remaining.")
@@ -133,4 +133,4 @@ class TimerService:
             event_bus.publish({
                 "type": "Alarm Reminder",
                 "message": f"\nTimer: {timer.id} - {remaining_seconds} second(s) remaining."
-            })
+            }) #Manda o evento Alarm Reminder para a parte de eventos para lumi falar

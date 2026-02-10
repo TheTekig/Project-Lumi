@@ -1,6 +1,6 @@
 from lumi.domain.entities.recipe import Recipe
 
-class RecipeSession():
+class RecipeSession(): #Classe responsavel por armazenar a receita, o passo atual da receita, se a mesma esta ativa e os principais métodos para manipulação das mesmas
     def __init__(self, recipe):
         self.current_recipe : Recipe = recipe
         self.current_step: int = 0
@@ -14,7 +14,7 @@ class RecipeSession():
         session.active = True
         return session
 
-    def get_current_step(self):
+    def get_current_step(self): 
         return self.current_recipe.steps[self.current_step - 1]
     
     def get_recipe_description(self) -> str:

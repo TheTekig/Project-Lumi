@@ -1,8 +1,9 @@
 import re
 from lumi.domain.enums.intent_type import IntentType
-class IntentRouterService:
 
-    def detect(self, message: str) -> IntentType:
+class IntentRouterService: #Classe responsavel por identificar inteção do usuário para direcionalo para saida desejada
+
+    def detect(self, message: str) -> IntentType: #Retorna somente a intenção do usuário
         message = message.lower()
 
         if  any(word in message for word in ["hello", "hey", "oi", "ola", "saudações"]):

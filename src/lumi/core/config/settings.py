@@ -5,7 +5,7 @@ import os
 
 
 @dataclass
-class Settings:
+class Settings: #Configurações gerais - Modelos, Tokens e chaves de API
 
     load_dotenv()
 

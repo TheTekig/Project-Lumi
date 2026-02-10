@@ -5,7 +5,7 @@ from lumi.application.intent.intent_router_service import IntentRouterService
 from lumi.application.dto.user_input_dto import UserInputDTO
 from lumi.application.orchestrators.conversation_orchestrator import ConversationOrchestrator
 
-router = APIRouter()
+router = APIRouter() 
 intent_router = IntentRouterService()
 orchestrator = ConversationOrchestrator()
 

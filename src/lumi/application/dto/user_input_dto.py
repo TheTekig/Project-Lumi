@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 
 @dataclass
-class UserInputDTO:
+class UserInputDTO: 
+    """ Classe responsavel por receber e classificar sessao, mensagem, o horario e a origem da requisição """
     def __init__(self,
     message: str,
     session_id: str,

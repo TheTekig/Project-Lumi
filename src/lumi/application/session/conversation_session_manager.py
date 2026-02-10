@@ -1,7 +1,7 @@
 from lumi.domain.entities.conversation_session import ConversationSession
 from uuid import uuid4
 
-class ConversationSessionManager:
+class ConversationSessionManager: #Responsavel por criar as sessões de usuario
 
     def __init__(self):
         self.sessions : dict[str,ConversationSession] = {}

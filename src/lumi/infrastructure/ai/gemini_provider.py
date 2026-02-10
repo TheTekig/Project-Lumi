@@ -7,7 +7,7 @@ import os
 from lumi.core.config.settings import Settings
 from lumi.domain.interfaces.ai_provider import AIProvaider
 
-class GeminiProvider(AIProvaider):
+class GeminiProvider(AIProvaider): #Reponsavel por gerar repostas em conexão com API do gemini
 
     def __init__(self):
         self.settings = Settings()

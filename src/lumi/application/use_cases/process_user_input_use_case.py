@@ -5,7 +5,7 @@ from lumi.application.services.whatsapp_service import WhatsAppService
 from lumi.application.recipe.recipe_flow import RecipeFlowService
 from lumi.infrastructure.singletons import session_manager
 
-class ProcessUserInputUseCase:
+class ProcessUserInputUseCase: #Cérebro do processamento geral
 
     def __init__(self):
         self.intent_router = IntentRouterService()
@@ -14,15 +14,15 @@ class ProcessUserInputUseCase:
         self.recipe_flow_service = RecipeFlowService()
         self.whatsapp_service = WhatsAppService()
 
-    def execute(self, user_input_dto: UserInputDTO) -> str: 
+    def execute(self, user_input_dto: UserInputDTO) -> str: #Retorna a chamada ao usuario
 
         """Metodo responsavel pelo processamento do input do Usuario, ele trata o input e devolve"""
         print(f"\nReceived message: {user_input_dto.message}\nsession_id: {user_input_dto.session_id}\ndto source: {user_input_dto.source}\ndto timestamp: {user_input_dto.timestamp}\n")
 
         user_text = user_input_dto.message.lower()
-        intent = self.intent_router.detect(user_text)
+        intent = self.intent_router.detect(user_text) #Reconhece a Inteção do usuario com base no input 
 
-        session = self.session_manager.get_or_create(user_input_dto.session_id)    
+        session = self.session_manager.get_or_create(user_input_dto.session_id)    #Chama a sessão para chamada do usuario para buscar se ja existe uma iniciada ou se é necessario a criação de uma nova
 
         session.last_message = user_input_dto.message
         session.last_intent = intent
@@ -39,13 +39,13 @@ class ProcessUserInputUseCase:
 
             case IntentType.FREE_CHAT:
                 print("Status: Free chat intent detected.\n")
-                if user_input_dto.source == "ai" or user_input_dto == "system":
+                if user_input_dto.source == "ai" or user_input_dto == "system": #Impossibilita se por um acaso a IA ou o Systema chamar novamente a IA, evitando um loop de chamados
                     return ""
-                return intent
+                return intent #Retorna o intent para reconhecimento do chamado de IA no Orchestrator
 
             case IntentType.MANAGE_RECIPE:
                 print("Status: Manage recipe intent detected.\n")
-                if user_input_dto.source == "ai":
+                if user_input_dto.source == "ai": #Impossibilita a IA entrar e realizar qualquer ação no funcionamento da receita, somente o source "system" disparado pela IA ou "user" pode realizar o manage_recipe
                     return ""
                 response = self.recipe_flow_service.manage_recipe(session, user_text, user_input_dto.source)
                 return response
@@ -56,12 +56,12 @@ class ProcessUserInputUseCase:
     def greeting(self, user_text: str) -> str:
         return "Hello! How can I assist you today?"
     
-    def timer_create(self, user_text: str) -> str:
-        duration_seconds = self.timer_service.parse_time(user_text)
-        parsed_timer_name = self.timer_service.parse_timer_name(user_text)
+    def timer_create(self, user_text: str) -> str: #Método para chamar a criação dos Timers
+        duration_seconds = self.timer_service.parse_time(user_text) #Extrai o tempo e faz conversao para segundos
+        parsed_timer_name = self.timer_service.parse_timer_name(user_text) # Extrai o nome
 
         if duration_seconds > 0:
-            self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer: {timer.id} - ended."))
+            self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer: {timer.id} - ended.")) #Cria o Timer
 
             return f"Timer set for {duration_seconds} seconds."
 

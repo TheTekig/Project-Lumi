@@ -8,8 +8,8 @@ class RecipeService:
         self.recipe_repository = RecipeRepository()
         self.recipe_session: RecipeSession
 
-    def parse_recipe_name(self, user_text) -> str | None:
-        message = user_text.lower()
+    def parse_recipe_name(self, user_text) -> str | None: #Resposavel por extrair o nome da receita no input do user
+        message = user_text.lower() #Define o input string do usuario como minusculo para facilitar a extração
         
         pattern = r"""
         (?:como\s+)?
@@ -30,15 +30,15 @@ class RecipeService:
         return recipe if recipe else None
 
 
-    def create_recipe_session(self, user_text) -> RecipeSession:
+    def create_recipe_session(self, user_text) -> RecipeSession: #Cria a sessão da receita
 
         name = self.parse_recipe_name(user_text)
-        recipe = self.recipe_repository.get_recipe_by_name(name)
+        recipe = self.recipe_repository.get_recipe_by_name(name) #Busca a receita no repositório pelo nome
         session = RecipeSession(recipe)
         return session
 
         
         
-    def list_recipes(self):
+    def list_recipes(self): #Lista todas as receitas do repositorio
         return self.recipe_repository.list_all_recipes()
 

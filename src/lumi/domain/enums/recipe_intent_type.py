@@ -1,6 +1,6 @@
 from enum import Enum
 
-class RecipeIntentType(Enum):
+class RecipeIntentType(Enum): #Intenções voltadas a manipulação das receitas
 
     RECIPE_REQUEST = "recipe_request"
     NEXT_STEP = "next_step"

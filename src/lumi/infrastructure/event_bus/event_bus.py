@@ -1,6 +1,6 @@
 from queue import Queue
 
-class EventBus:
+class EventBus: #Faz o envio dos eventos para Lumi-Robot - Lista eventos
     def __init__(self):
         self.queue = Queue()
 

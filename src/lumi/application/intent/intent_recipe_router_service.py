@@ -1,9 +1,9 @@
 import re
 from lumi.domain.enums.recipe_intent_type import RecipeIntentType
 
-class IntentRecipeRouterService:
+class IntentRecipeRouterService: #Classe responsavel por detectar a intenção do usuário através de palavras chaves para manipulação de receitas
 
-    def detect(self, message) -> RecipeIntentType:
+    def detect(self, message) -> RecipeIntentType: # detect somente retorna a intenção do usuario
        
         if any(word in message for word in ["recipe", "how to make", "cook", "receita", "preparar", "como fazer"]):
             return RecipeIntentType.RECIPE_REQUEST

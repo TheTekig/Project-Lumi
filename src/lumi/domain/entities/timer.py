@@ -11,7 +11,7 @@ class Timer:
     active: bool
 
     @staticmethod
-    def create(duration_seconds: int, name: str = str(uuid4())) -> 'Timer':
+    def create(duration_seconds: int, name: str = str(uuid4())) -> 'Timer': #Cria o timer colocando um id aleatório no mesmo caso não seja expecificado pelo user ou system
 
         now = datetime.utcnow()
         ends_at = now.timestamp() + duration_seconds

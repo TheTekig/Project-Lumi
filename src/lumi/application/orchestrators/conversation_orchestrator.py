@@ -5,12 +5,13 @@ from lumi.infrastructure.ai.provider_manager import AIProviderManager
 from lumi.domain.enums.intent_type import IntentType
 
 class ConversationOrchestrator:
-    def __init__(self):
+    """Orchestrator passa para o processamento correto os inputs recebidos sendo encaixado como IA ou User"""
+    def __init__(self): #Inicializa  outros módulos para processamento 
         self.user_uc = ProcessUserInputUseCase()
         self.ai_uc = ProcessIAInputCase(self.user_uc)
         self.ai_provider = AIProviderManager()
 
-    def handle_user_message(self, dto):
+    def handle_user_message(self, dto): #Método responsavel por gerenciar qual rota sera pega para o input do usuario ou ia
         response = self.user_uc.execute(dto)
 
         if response == IntentType.FREE_CHAT:
@@ -18,3 +19,8 @@ class ConversationOrchestrator:
             return self.ai_uc.execute(ai_text, dto.session_id)
         
         return response
+    
+    """
+    Foi necessario a implementação do ConversationOrchestrator para contornar um eventual problema de import circular,
+    onde o ProcessUserInputUseCase importa o ProcessIAInputCase e o mesmo importa o ProcessUserInputUseCase!
+      """

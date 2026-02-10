@@ -6,7 +6,7 @@ import os
 from lumi.core.config.settings import Settings
 from lumi.domain.interfaces.ai_provider import AIProvaider
 
-class OpenAIClient(AIProvaider):
+class OpenAIClient(AIProvaider): #Reponsavel por gerar repostas em conexão com API da OpenAI
     
     def __init__(self):
         self.settings = Settings()
