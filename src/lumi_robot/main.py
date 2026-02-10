@@ -1,6 +1,7 @@
 from voice.stt_service import SpeechToTextService
 from voice.tts_service import TextToSpeechService
 from client.client import BackendClient
+import threading
 import time
 
 def main():
@@ -9,6 +10,14 @@ def main():
     stt = SpeechToTextService()
     tts = TextToSpeechService()
     backend = BackendClient()
+
+    event_thread = threading.Thread(
+        target= event_listener,
+        args=(backend, tts),
+        daemon=True
+    )
+
+    event_thread.start()
 
     while True:
         print("Lumi Esperando por Wake-Word")
@@ -27,13 +36,30 @@ def main():
             tts.speak(reply)
             time.sleep(1)
 
-        event = backend.listen_events()
-        if not event:
-            continue
-        if event["type"] == "TIMER_FINISHED":
-            tts.speak(event["message"])
-        if event["type"] == "Alarm Reminder":
-            tts.speak(event["message"])
+
+def event_listener(backend, tts):
+    print("Event Listener Iniciado")
+
+    while True:
+        try:
+            event = backend.listen_events(timeout=10)
+            if not event:
+                continue
+
+            print(f"Evento Recebido: {event}")
+
+            if event["type"] == "TIMER_FINISHED":
+                tts.speak(event["message"])
+
+            elif event["type"] == "Alarm Reminder":
+                tts.speak(event["message"])
+
+            elif event["type"] == "AI_SYSTEM_REQUEST":
+                tts.speak(event["message"])
+        
+        except Exception as e:
+            print("Erro no event_listener", e)
+            time.sleep(2)
 
 
 if __name__ == "__main__":
