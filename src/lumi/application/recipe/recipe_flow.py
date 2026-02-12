@@ -20,7 +20,7 @@ class RecipeFlowService:
         response = self.handle_active_recipe(session, user_text, intent)
         if input_source == "system":
             event_bus.publish({"type": "AI-System Request", "message": f"{response}" })
-        return response
+        return response 
         
     
     def handle_no_active_recipe(self, session, user_text, intent):
@@ -28,9 +28,9 @@ class RecipeFlowService:
         print(f"Status: Intent - {intent}")
         match intent:
             case RecipeIntentType.RECIPE_REQUEST:
-                return self.recipe_request(session,user_text)
+                return self.recipe_request(session,user_text) 
             case RecipeIntentType.RECIPE_SUGESTION:
-                return self.recipe_suggestion(user_text)
+                return self.recipe_suggestion(user_text) 
             case _:
                 return "Não entendi o comando!"
         
@@ -41,28 +41,28 @@ class RecipeFlowService:
         match intent:
        
             case RecipeIntentType.NEXT_STEP:
-                return self.next_step(session)
+                return self.next_step(session) 
             
             case RecipeIntentType.PREVIOUS_STEP:
-                return self.previous_step(session)
+                return self.previous_step(session) 
             
             case RecipeIntentType.ACTUAL_STEP:
-                return self.actual_step(session)
+                return self.actual_step(session) 
             
             case RecipeIntentType.LIST_RECIPE:
-                return self.list_ingredients(session)
+                return self.list_ingredients(session) 
             
             case RecipeIntentType.IMAGE_ANALYSIS:
-                return self.image_analysis(user_text)
+                return self.image_analysis(user_text) 
 
             case _:
-                return "Não entendi o comando da receita!"
+                return "Não entendi o comando da receita!" 
 
     def list_ingredients(self, session):
         ingredients = session.current_recipe.list_ingredients()
         print(ingredients)
             
-        return ingredients
+        return ingredients 
 
     def actual_step(self,session) -> str:
         actual_step = session.current_recipe.get_current_step()

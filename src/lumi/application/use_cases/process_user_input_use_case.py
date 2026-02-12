@@ -31,7 +31,7 @@ class ProcessUserInputUseCase:
             
             case IntentType.GREETING:
                 print("Status: Greeting intent detected.\n")
-                return self.greeting(user_text = user_text)
+                return self.greeting(user_text = user_text) 
 
             case IntentType.TIMER_CREATE:
                 print("Status: Timer creation intent detected.\n")
@@ -40,13 +40,13 @@ class ProcessUserInputUseCase:
             case IntentType.FREE_CHAT:
                 print("Status: Free chat intent detected.\n")
                 if user_input_dto.source == "ai" or user_input_dto == "system":
-                    return ""
-                return intent
+                    return "" 
+                return intent 
 
             case IntentType.MANAGE_RECIPE:
                 print("Status: Manage recipe intent detected.\n")
                 if user_input_dto.source == "ai":
-                    return ""
+                    return "" 
                 response = self.recipe_flow_service.manage_recipe(session, user_text, user_input_dto.source)
                 return response
 
