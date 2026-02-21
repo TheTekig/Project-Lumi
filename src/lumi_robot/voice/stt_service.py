@@ -10,10 +10,10 @@ import os
 class SpeechToTextService:
     def __init__(self):
         self.settings = Settings()
-        self.model = WhisperModel("tiny" ,device="cuda", compute_type="float16")
+        self.model = WhisperModel(model_size_or_path=r"C:\Users\diogo\OneDrive\Documentos\GitHub\Project-Lumi\src\lumi_robot\voice\stt_models\large-v3", device="cuda", compute_type="int8_float16")
 
     def transcribe(self, audio_path: str) -> str:
-        segments, _ = self.model.transcribe(audio_path)
+        segments, _ = self.model.transcribe(audio_path, language="pt", task="transcribe")
 
         text = ""
         for segment in segments:
@@ -46,7 +46,6 @@ class SpeechToTextService:
         print("Wake word not detected.")
         return False
     def listen_command(self) -> str:
-        print("Ouvindo Comando...")
         audio_file = self.record_audio(seconds = 5)
 
         return self.transcribe(audio_file)

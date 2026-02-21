@@ -3,7 +3,7 @@ from lumi.domain.entities.recipe import Recipe
 class RecipeRepository:
     def __init__(self):
         self._recipes = {
-            "recipe pancakes": Recipe(
+            "panqueca": Recipe(
                 name="Pancakes",
                 ingredients=["1 cup flour", "2 tablespoons sugar", "1 tablespoon baking powder", "1 cup milk", "1 egg", "2 tablespoons melted butter"],
                 description= "A pancake is a flat, round, starch-based cake cooked on a hot griddle or frying pan, commonly made from flour, milk, eggs, and a leavening agent like baking powder.",
@@ -17,7 +17,7 @@ class RecipeRepository:
                 ]
             ),
 
-            "recipe white rice": Recipe(
+            "arroz branco": Recipe(
                 name="White Rice",
                 ingredients=["1 cup white rice", "2 cups water", "1/2 teaspoon salt", "1 tablespoon butter (optional)"],
                 description= "White rice is a staple, refined, and highly versatile grain, specifically processed by removing the husk, bran, and germ to leave only the white starchy endosperm",

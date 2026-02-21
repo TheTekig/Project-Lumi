@@ -4,30 +4,32 @@ from client.client import BackendClient
 from display.emotion_display import EmotionDisplayService
 import threading
 import time
+import torch
+
+
+
 
 def main():
     print("Lumi Inicializada")
+    print(torch.cuda.is_available())
+    print(torch.cuda.get_device_name(0))
+
+
 
     stt = SpeechToTextService()
     tts = TextToSpeechService()
     backend = BackendClient()
-    display = EmotionDisplayService()
 
-    display_thread = threading.Thread(target=display.run, daemon=True)
-    display_thread.start()
-
-    
 
     tts.speak("Lumi Inicialized! just waiting for the wake word")
 
     while True:
         
-        display.set_emotion("idle_emotion")
         print("Lumi Esperando por Wake-Word")
         
 
         if stt.wait_for_wake_word():
-            display.set_emotion("listening_emotion")
+
             print("Lumi Ativa. Ouvindo comando...")
             transciption = stt.listen_command()
             print(f"command : {transciption}")
@@ -39,7 +41,7 @@ def main():
             reply = backend.send_command(transciption)
             print(f"Reply : {reply}")
 
-            display.set_emotion("speaking_emotion")
+            
             tts.speak(reply)
             time.sleep(1)
         """
