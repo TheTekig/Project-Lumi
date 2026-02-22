@@ -3,34 +3,46 @@ from lumi.domain.entities.recipe import Recipe
 class RecipeRepository:
     def __init__(self):
         self._recipes = {
-            "recipe pancakes": Recipe(
-                name="Pancakes",
-                ingredients=["1 cup flour", "2 tablespoons sugar", "1 tablespoon baking powder", "1 cup milk", "1 egg", "2 tablespoons melted butter"],
-                description= "A pancake is a flat, round, starch-based cake cooked on a hot griddle or frying pan, commonly made from flour, milk, eggs, and a leavening agent like baking powder.",
-                steps=[
-                    "In a bowl, mix flour, sugar, and baking powder.",
-                    "In another bowl, whisk milk, egg, and melted butter.",
-                    "Combine wet and dry ingredients until just mixed.",
-                    "Heat a non-stick pan over medium heat.",
-                    "Pour 1/4 cup batter for each pancake.",
-                    "Cook until bubbles form, then flip and cook until golden."
-                ]
-            ),
+    "receita panqueca": Recipe(
+        name="Panquecas",
+        ingredients=[
+            "1 xícara de farinha",
+            "2 colheres de sopa de açúcar",
+            "1 colher de sopa de fermento em pó",
+            "1 xícara de leite",
+            "1 ovo",
+            "2 colheres de sopa de manteiga derretida"
+        ],
+        description="Panqueca é um bolo achatado e redondo à base de massa, preparado em uma chapa ou frigideira quente, geralmente feito com farinha, leite, ovos e um agente de fermentação como fermento em pó.",
+        steps=[
+            "Em uma tigela, misture a farinha, o açúcar e o fermento em pó.",
+            "Em outra tigela, bata o leite, o ovo e a manteiga derretida.",
+            "Combine os ingredientes líquidos e secos até misturar levemente.",
+            "Aqueça uma frigideira antiaderente em fogo médio.",
+            "Despeje 1/4 de xícara de massa para cada panqueca.",
+            "Cozinhe até formar bolhas, depois vire e cozinhe até dourar."
+        ]
+    ),
 
-            "recipe white rice": Recipe(
-                name="White Rice",
-                ingredients=["1 cup white rice", "2 cups water", "1/2 teaspoon salt", "1 tablespoon butter (optional)"],
-                description= "White rice is a staple, refined, and highly versatile grain, specifically processed by removing the husk, bran, and germ to leave only the white starchy endosperm",
-                steps=[
-                    "Rinse the rice under cold water until the water runs clear.",
-                    "In a pot, bring water to a boil.",
-                    "Add salt and butter to the boiling water.",
-                    "Stir in the rice, reduce heat to low, and cover the pot.",
-                    "Simmer for 18-20 minutes, or until the water is absorbed and rice is tender.",
-                    "Remove from heat and let it sit, covered, for 5 minutes. Fluff with a fork before serving."
-                ]
-            )
-        } 
+    "receita arroz branco": Recipe(
+        name="Arroz Branco",
+        ingredients=[
+            "1 xícara de arroz branco",
+            "2 xícaras de água",
+            "1/2 colher de chá de sal",
+            "1 colher de sopa de manteiga (opcional)"
+        ],
+        description="O arroz branco é um grão básico, refinado e altamente versátil, processado pela remoção da casca, farelo e gérmen, restando apenas o endosperma branco rico em amido.",
+        steps=[
+            "Lave o arroz em água corrente fria até a água ficar transparente.",
+            "Em uma panela, leve a água para ferver.",
+            "Adicione o sal e a manteiga à água fervente.",
+            "Acrescente o arroz, reduza o fogo para baixo e tampe a panela.",
+            "Cozinhe por 18-20 minutos, ou até que a água seja absorvida e o arroz esteja macio.",
+            "Retire do fogo e deixe descansar, tampado, por 5 minutos. Solte com um garfo antes de servir."
+        ]
+    )
+}
     def get_recipe_by_name(self, name: str) -> Recipe | None:
         print(name)
         recipe = self._recipes.get(name.lower())
