@@ -3,7 +3,7 @@ from lumi.domain.entities.recipe import Recipe
 class RecipeRepository:
     def __init__(self):
         self._recipes = {
-    "receita panqueca": Recipe(
+    "panqueca": Recipe(
         name="Panquecas",
         ingredients=[
             "1 xícara de farinha",
@@ -24,7 +24,7 @@ class RecipeRepository:
         ]
     ),
 
-    "receita arroz branco": Recipe(
+    "arroz branco": Recipe(
         name="Arroz Branco",
         ingredients=[
             "1 xícara de arroz branco",

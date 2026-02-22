@@ -97,7 +97,7 @@ class RecipeFlowService: #Classe responsavel pelo controle de ações envolvendo
         
         session.current_recipe = recipe_session #Vincula a receita atual a sessão atual
         recipe_description = session.current_recipe.get_recipe_description() #Faz uma descrição breve da receita escolhida
-        return recipe_description + "Lets Start?"
+        return recipe_description + ", Vamos Começar?"
 
     def image_analysis(self, user_text: str) -> str: #Analisa a imagem do processo atual da receita (Feature em desenvolvimento)
         return "Please upload an image for analysis."

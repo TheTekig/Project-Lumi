@@ -6,5 +6,11 @@ router = APIRouter()
 
 @router.get("/events")
 def listen_events():
-    event = event_bus.wait_for_event()
-    return event
+    event = event_bus.wait_for_event(timeout=60)
+
+    if event:
+        print("Sending Event: ", event)
+        return event
+
+    print("Sending Event: ", event)
+    return {}

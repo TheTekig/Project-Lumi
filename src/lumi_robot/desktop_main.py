@@ -1,9 +1,11 @@
 import customtkinter as ctk
 import tkinter as tk
 
+from queue import Queue
 from voice.stt_service import SpeechToTextService
 from voice.tts_service import TextToSpeechService
 from client.client import BackendClient
+
 import threading
 import time
 import torch
@@ -54,10 +56,47 @@ class LumiApp(ctk.CTk):
         self.tts = TextToSpeechService()
         self.stt = SpeechToTextService()
         self.backend = BackendClient()
+        self.queue = Queue()
+
+        self.speech_thread = threading.Thread(target= self.speech_worker, daemon=True)
+        self.speech_thread.start()
+
+        self.event_thread = threading.Thread(target=self.event_listener, daemon=True)
+        self.event_thread.start()
+
+    def speech_worker(self):
+        while True:
+            text = self.queue.get()
+
+            try:
+                self.safe_update_status("Status: Respondendo...", "#00cc66")
+                self.tts.speak(text)
+            
+            except Exception as e:
+                print("Error TTS: ", e)
+            
+            finally:
+                self.queue.task_done()
+                self.reset()
+
+    def event_listener(self):
+        while True:
+            try:
+                event = self.backend.listen_events()
+
+                if not event:
+                    continue
+            
+                if event["type"] in  ["TIMER_FINISHED", "Alarm Reminder", "AI_SYSTEM_REQUEST"]:
+                    self.queue.put(event["message"])
+            
+            except Exception as e:
+                print("Error event listener: " , e)
+                time.sleep(2)
+
 
     def starting_processing_thread(self):
-        thread = threading.Thread(target=self.processing_flow)
-        thread.daemon = True
+        thread = threading.Thread(target=self.processing_flow, daemon= True)
         thread.start()
     
     def self_update_button(self, text=None, color=None, state=None):
@@ -86,9 +125,17 @@ class LumiApp(ctk.CTk):
         )
 
         transcript = self.activate_lumi()
+
+        if not transcript:
+            self.reset()
+            return
+
         reply = self.processing(transcript)
-        self.responding(reply)
-        self.reset()
+
+        if reply:
+            self.queue.put(reply)
+        else:
+            self.reset()
 
     def set_eye_color(self, color):
         self.canvas.itemconfig(self.left_eye, fill=color)
@@ -96,7 +143,6 @@ class LumiApp(ctk.CTk):
 
     def activate_lumi(self):
         self.safe_update_status(text= "Status: Ouvindo...", color="#4da6ff")
-        self.set_eye_color("#4da6ff")
 
         transcript = self.stt.listen_command()
         if not transcript:
@@ -108,13 +154,7 @@ class LumiApp(ctk.CTk):
         reply = self.backend.send_command(transcript)
         print(reply)
         return reply
-    
-    def responding(self, reply):
-        self.safe_update_status(text= "Status: Respondendo...", color="#00cc66")
-
-        self.tts.speak(reply)
-
-    
+ 
     def reset(self):
         self.safe_update_status(text= "Status: Pronto!", color="white")
         self.self_update_button(

@@ -69,7 +69,7 @@ class TimerService: #Responsavel pela criação e gerenciamento dos timer ativos
         if match:
             return match.group(1).strip()
         
-        return "Unnamed Timer"
+        return ""
 
     def create_timer(self, name: str, duration_seconds: int, callback) -> Timer: #Cria uma instancia do objeto timer para rodar em um outra thread para não travar o backend
         timer = Timer.create(duration_seconds, name) #Cria uma instancio do objeto Timer
@@ -110,7 +110,7 @@ class TimerService: #Responsavel pela criação e gerenciamento dos timer ativos
         time.sleep(remaining) # Faz ele esperar o tempo do checkpoint acabar
         event_bus.publish({ 
             "type": "TIMER_FINISHED",
-            "message" : f"Timer - {timer.id} finished" 
+            "message" : f"Alarme {timer.id} Finalizado" 
             }) #Manda o evento de Timer_Finished para a parte de Eventos para lumi falar
         
         callback(timer) # Faz o callback com a mensagem que o timer terminou
@@ -124,7 +124,7 @@ class TimerService: #Responsavel pela criação e gerenciamento dos timer ativos
             
             event_bus.publish({
                 "type": "Alarm Reminder",
-                "message": f"\nTimer: {timer.id} - {minutes} minute(s) remaining."
+                "message": f"\nFaltam {minutes} minutos para o alarme {timer.id} terminar."
             }) #Manda o evento Alarm Reminder para a parte de eventos para lumi falar
 
         else:
@@ -132,5 +132,5 @@ class TimerService: #Responsavel pela criação e gerenciamento dos timer ativos
             
             event_bus.publish({
                 "type": "Alarm Reminder",
-                "message": f"\nTimer: {timer.id} - {remaining_seconds} second(s) remaining."
+                "message": f"\nFaltam {remaining_seconds} segundos para o alarme {timer.id} terminar."
             }) #Manda o evento Alarm Reminder para a parte de eventos para lumi falar

@@ -63,11 +63,11 @@ class ProcessUserInputUseCase: #Cérebro do processamento geral
         if duration_seconds > 0:
             self.timer_service.create_timer(parsed_timer_name, duration_seconds, lambda timer: print(f"Timer: {timer.id} - ended.")) #Cria o Timer
 
-            return f"Timer set for {duration_seconds} seconds."
+            return f"Alarme colocado para {duration_seconds} segundos."
 
         else: 
-            return f"Could you please specify the duration for the timer?"
+            return f"Poderia expecificar melhor o tempo do Alarme?"
     
     def unknown_intent(self, user_text: str) -> str:
-        return "I'm not sure how to help with that. Could you please rephrase?"
+        return "Não Tenho certeza de como ajudalo, pode reformular a frase?"
     

@@ -4,18 +4,17 @@ from core.settings import Settings
 class BackendClient:
     def __init__(self):
         self.settings = Settings()
-        self.base_url = self.settings.BASE_URL
 
     def send_command(self, text: str, session_id = "lumi-home"):
         response = requests.post(
-            f"{self.base_url}/api/chat",
+            f"{self.settings.BASE_URL}/api/chat",
             json={"message": text, "session_id": session_id}
         )
         return response.json()["reply"]
 
     def listen_events(self):
         try:
-            response = requests.get(f"{self.base_url}/api/events", timeout=60)
+            response = requests.get(f"{self.settings.BASE_URL}/api/events", timeout=60)
             if response.status_code == 200:
                 return response.json()
         
