@@ -12,12 +12,15 @@ class RecipeService:
         message = user_text.lower() #Define o input string do usuario como minusculo para facilitar a extração
         
         pattern = r"""
-        (?:como\s+)?
-        (?:fazer|preparar|cozinhar|montar|criar|ensinar|aprender|quero|vamos)?\s*
-        (?:a\s+)?
-        (?:receita\s+(?:de\s+)?)?
-        (?P<recipe>.+)
+(?:como\s+(?:eu\s+)?)?
+(?:quero\s+|me\s+ensina\s+a\s+|ensina\s+a\s+|me\s+mostra\s+como\s+|vamos\s+)?
+(?:fazer|preparar|cozinhar|montar|criar)?\s*
+(?:a\s+)?
+(?:receita\s+(?:de\s+)?)?
+(?P<recipe>[a-zA-Zà-úÀ-Ú\s]+?)
+(?:\s+(?:por\s+favor|pra\s+mim|para\s+mim|agora|hoje|aqui))?$
 """
+
         match = re.search(pattern, message, re.VERBOSE)
 
         if not match:
