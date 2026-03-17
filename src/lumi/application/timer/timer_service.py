@@ -62,14 +62,39 @@ class TimerService: #Responsavel pela criação e gerenciamento dos timer ativos
         return 0
     
     def parse_timer_name(self, message: str) -> str: #Extrai o nome que dever ser direcionado ao timer
-        message = message.lower()
+        message = message.lower().strip()
 
-        match = re.search(r'(?:timer|alarm|reminder|cronômetro|cronometro|alarme)\s+(?:para|pra|pro|do|da|de)\s+(.+?)(?:\s+(?:for|por|em|durante)|$)', message)
-        
-        if match:
-            return match.group(1).strip()
-        
-        return ""
+        pattern = r"""
+        (?:timer|alarm|reminder|cron[oô]metro|alarme)
+        (?:\s+(?:de|por)\s+\d+\s*(?:segundos?|minutos?|horas?))?
+        \s*
+        (?:para|pra|pro|do|da|de)?
+        \s*
+        (?:o|a|um|uma)?
+        \s*
+        (?P<name>[a-zà-ú\s]+)?
+        """
+
+        match = re.search(pattern, message, re.VERBOSE)
+
+        if not match:
+            return ""
+
+        name = match.group("name")
+
+        if not name:
+            return "timer"
+
+        # limpeza
+        name = re.sub(
+            r'\b(por|em|durante|de|para|pra)\b.*',
+            '',
+            name
+        ).strip()
+
+        name = re.sub(r'\b(por favor|agora|aqui|pra mim)\b', '', name)
+
+        return name if name else "timer"
 
     def create_timer(self, name: str, duration_seconds: int, callback) -> Timer: #Cria uma instancia do objeto timer para rodar em um outra thread para não travar o backend
         timer = Timer.create(duration_seconds, name) #Cria uma instancio do objeto Timer

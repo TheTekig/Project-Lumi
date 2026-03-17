@@ -41,6 +41,7 @@ class RecipeRepository:
             "Cozinhe por 18-20 minutos, ou até que a água seja absorvida e o arroz esteja macio.",
             "Retire do fogo e deixe descansar, tampado, por 5 minutos. Solte com um garfo antes de servir."
         ]
+
     )
 }
     def get_recipe_by_name(self, name: str) -> Recipe | None:

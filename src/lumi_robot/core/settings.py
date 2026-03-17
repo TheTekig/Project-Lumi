@@ -21,5 +21,5 @@ class Settings:
     BASE_URL : str = "http://localhost:8000"
     FS: int = 48000
     AUDIO_DEVICE: int = 1
-    MICROPHONE_DEVICE: int = 15
+    MICROPHONE_DEVICE: int = 11
     LUMI_WAKE_WORD: str = "lumi"

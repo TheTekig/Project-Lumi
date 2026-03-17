@@ -15,7 +15,7 @@ class IntentRouterService: #Classe responsavel por identificar inteção do usu�
         if any(word in message for word in [
             "recipe", "how to make", "cook", "receita", "preparar", "como fazer", 
             "quero fazer", "quero preparar", "quero cozinhar", "me ensina a fazer", "me ensina a preparar",
-            "me ensina a cozinhar", "ensina a fazer", "ensina a preparar", "ensina a cozinhar",
+            "me ensina a cozinhar", "ensina a fazer","vamos fazer", "ensina a preparar", "ensina a cozinhar",
             "como eu faço", "como eu preparo", "como eu cozinho", "me mostra como fazer", "me mostra como preparar", "me mostra como cozinhar",
             "list ingredients", "ingredients", "lista de ingredientes", "ingredientes", "listar os ingredientes",
             "quais os ingredientes", "quais os ingredientes necessários", "quais os ingredientes para essa receita", "quais os ingredientes para essa etapa",

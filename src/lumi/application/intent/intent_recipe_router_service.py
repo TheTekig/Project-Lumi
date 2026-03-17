@@ -14,7 +14,7 @@ class IntentRecipeRouterService: #Classe responsavel por detectar a intenção d
           
         intent_pattern = r"""
                     \b(
-                    como\s+(?:eu\s+)?(fazer|preparar|cozinhar)|
+                    (como|fazer)\s+(?:eu\s+)?(fazer|preparar|cozinhar)|
                     quero\s+(fazer|preparar|cozinhar)|
                     receita\s+de|
                     how\s+to\s+make|
