@@ -172,7 +172,9 @@ A LUMI acompanha a interação do usuário e realiza **check-ins automáticos in
 
 ## 🖼️ Mídia — Fotos & Vídeos
 
-> Esta seção conterá **fotos reais, vídeos e demonstrações** do desenvolvimento e montagem física da LUMI.
+<p align="center">
+  <img src="./Github-Assets/lumi_video.gif" alt="Preview do Lumi" style="size: 50px;">
+</p>
 
 ---
 
@@ -188,6 +190,72 @@ Este projeto foi criado como um **projeto âncora de portfólio**, com o objetiv
 | 🎙️ Sistemas de Voz | Integração STT + TTS |
 | 🔧 Robótica | Integração hardware + software |
 | 🎨 Design de Produto | UX, emoção e experiência |
+
+---
+
+## ⚙️ Instalação
+
+  1. Clonar o repositório
+     
+         git clone https://github.com/TheTekig/Project-Lumi.git
+         cd Project-Lumi
+     
+  2. Criar ambiente virtual
+
+         python -m venv venv
+         venv\Scripts\activate
+     
+  3. Instalar dependencias
+
+           pip install -r requirements.txt
+     
+  4. Configurar Variaveis de ambiente
+
+      - .Env Config:
+     
+            Crie um arquivo .env na raiz do projeto contendo:
+       
+            OPENAI_API_KEY = "sua chave API"
+            GEMINI_API_KEY = "sua chave API
+    
+            Recomendo Utilizar somente o Gemini por conta do plano gratuito
+
+     - Entrada e saida de audio:
+
+           Execute a seguinte linha para na raiz do projeto para identificar as saidas/entradas de audio:
+  
+           python .\tools\VoiceChannels.py
+  
+           Identifique sua entrada e saida e altere nas configuracoes:
+  
+           Caminho - Project-Lumi/src/lumi_robot/core/settings.py
+           AUDIO_DEVICE = "ID da sua saida de audio"
+           MICROPHONE_DEVICE = "ID da sua entrada de audio"
+     
+  5. Executar o Assistente
+
+      - Rodando Backend:
+
+            cd src
+            uvicorn main:app --reload
+        
+      - Rodando Interfaces/Robos
+
+            O Projeto Atual possui 2 formas de utilizar, através de Keyword sem interface grafica e com uma interface grafica utilizando TKinter.
+            Recomendo utilizar a versão com interface grafica pois está mais estavel e completa!
+
+            C/ Interface Grafica:
+            python .\src\lumi_robot\Desktop_APP.py
+
+            S/ Interface Grafica:
+            python .\src\lumi_robot\Desktop_VOICE.py
+
+  6. Adicionando Receitas
+
+         Atualmente o Sistema não é integrado a um banco de dados então ele funciona somente através de receitas colocadas manualmente em um JSON no seguinte local:
+         Caminho - Project-Lumi/src/lumi/infrastructure/database/recipes.json
+
+         Altere o arquivo mantendo a estrutura e adicione a receita seguindo o padrao das demais!
 
 ---
 
